@@ -5,31 +5,35 @@ Everything started and finished here. Damned pixel matrice.
 
 - [ ] FPS : Mode d'exploration en temps reel de la scene en FPS
 
-- Video
-Rendu d'une video a partir d'une scene et d'un fichier de config
+
+- [ ] Video : Rendu d'une video a partir d'une scene et d'un fichier de config
+-------------------------------------------
 resolution
 fps
 position et inclinaison de la camera
 mouvements / rotation de meshs
 mouvements / rotation de camera
 path vers le fichier
+-------------------------------------------
 
-- Image
-Rendu d'une image a partir d'une scene et d'un fichier de config
+
+- [ ] Image : Rendu d'une image a partir d'une scene et d'un fichier de config
+-------------------------------------------
 resolution
 position et inclinaison de la camera
 path vers le fichier
+-------------------------------------------
 
-- Gestion des materiaux pousses
+- [ ] Gestion des materiaux pousses
 
-- Reflection, refraction
+- [ ] Reflection, refraction
 
-- Anti-aliasings MSAA / FSAA
+- [ ] Anti-aliasings MSAA / FSAA
 
-- Subdivision de l'espace
+- [ ] Subdivision de l'espace
 
-- Voxelisation
+- [ ] Voxelisation
 Lancer un rayon pour plusieurs pixels pour diviser la quantite de calcul (par 4, 9, 16, 25)
 
-- Move bluring
+- [ ] Move bluring
 Voxelisation plus forte sur les cotes de l'image pendant le mouvements
