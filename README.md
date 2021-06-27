@@ -7,6 +7,7 @@ Everything started and finished here. Damned pixel matrice.
 
 
 - [ ] Video : Rendu d'une video a partir d'une scene et d'un fichier de config
+<p>
 -------------------------------------------
 resolution
 fps
@@ -15,6 +16,7 @@ mouvements / rotation de meshs
 mouvements / rotation de camera
 path vers le fichier
 -------------------------------------------
+</p>
 
 
 - [ ] Image : Rendu d'une image a partir d'une scene et d'un fichier de config
