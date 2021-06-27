@@ -7,24 +7,12 @@ Everything started and finished here. Damned pixel matrice.
 
 
 - [ ] Video : Rendu d'une video a partir d'une scene et d'un fichier de config
-<p>
--------------------------------------------
-resolution
-fps
-position et inclinaison de la camera
-mouvements / rotation de meshs
-mouvements / rotation de camera
-path vers le fichier
--------------------------------------------
-</p>
+(resolution, fps, position et inclinaison de la camera, mouvements / rotation de meshs,
+mouvements / rotation de camera, path vers le fichier video, path vers le fichier scene)
 
 
 - [ ] Image : Rendu d'une image a partir d'une scene et d'un fichier de config
--------------------------------------------
-resolution
-position et inclinaison de la camera
-path vers le fichier
--------------------------------------------
+(resolution, position et inclinaison de la camera, path vers le fichier)
 
 - [ ] Gestion des materiaux pousses
 
