@@ -56,8 +56,18 @@ fonction du ressenti de l'équipe (1 - 4 semaines).
 Le gitflow adopté comporte deux branches principales, la branche master, et la branche qa (quality assurance),
 qui servira de tampon pour les tests et la combinaison de features. A chaque cycle, les devs vont créer des
 branches secondaires pour chacune des taches qu'ils se sont attribués, puis développer et tester leur code
-avant de le merge avec la branche qa. Une fois toutes les branches secondaires merge a qa, on peut s'assurer du
-bon fonctionnement global du code intégré, puis merge qa et master. Le cycle s'achève et un autre commence.
+(tests unitaires) avant de le merge avec la branche qa. Une fois toutes les branches secondaires merge a qa,
+on peut s'assurer du bon fonctionnement global du code intégré, puis merge qa et master. Le cycle s'achève
+et un autre commence, après un meeting et une éventuelle pause.
+
+En cas de retard :
+Les branches secondaires non terminées sont remises au cycle suivant. Les taches définies pour la feature
+bloquée par le retard sont réattribuées au meeting de fin de cycle, et l'équipe peut continuer a progresser
+sur d'autres branches secondaires en parallèle.
+
+L'avance n'est pas un problème, il suffit de préciser dans le nom des nouvelles branches secondaires créées
+qu'elles concernent le cycle suivant, et pas celui en cours. Consulter l'équipe avant de commencer une tache
+en avance fait partie des bonnes pratiques.
 
 <h2>Nomenclature Git</h2>
 
