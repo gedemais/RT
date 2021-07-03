@@ -59,8 +59,12 @@ branches secondaires pour chacune des taches qu'ils se sont attribués, puis dé
 avant de le merge avec la branche qa. Une fois toutes les branches secondaires merge a qa, on peut s'assurer du
 bon fonctionnement global du code intégré, puis merge qa et master. Le cycle s'achève et un autre commence.
 
+<h2>Nomenclature Git</h2>
+
+- Branches secondaires (persos) : feature-cycle-nom_de_la_tache (ex : feature-00-setup_mlx)
 
 <h1> Liens utiles </h1>
+
 Raytracing course :
 https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing
 
