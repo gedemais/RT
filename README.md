@@ -44,7 +44,20 @@ Lancer un rayon pour plusieurs pixels pour diviser la quantite de calcul (par 4,
 Voxelisation plus forte sur les cotes de l'image pendant le mouvements, a ajuster
 avec un ratio.
 
-<h1> GitFlow </h1>
+<h1> Development & GitFlow </h1>
+Notre méthode de développement actuelle est inspirée de la méthode agile.
+L'intégration des features se fait de manière cyclique pour séparer puis subdiviser la charge de travail.
+Au début d'un cycle, ou "sprint" classique, chaque développeur s'attribue une liste de taches à faire en
+s'adaptant au contrats d'interface établis au début du projet. La durée de chaque cycle est a adapter en
+fonction du ressenti de l'équipe (1 - 4 semaines).
+
+![Screen Shot 2021-07-03 at 7 30 37 PM](https://user-images.githubusercontent.com/44742651/124362450-278f1d00-dc35-11eb-8ae2-98190400a245.png)
+
+Le gitflow adopté comporte deux branches principales, la branche master, et la branche qa (quality assurance),
+qui servira de tampon pour les tests et la combinaison de features. A chaque cycle, les devs vont créer des
+branches secondaires pour chacune des taches qu'ils se sont attribués, puis développer et tester leur code
+avant de le merge avec la branche qa. Une fois toutes les branches secondaires merge a qa, on peut s'assurer du
+bon fonctionnement global du code intégré, puis merge qa et master. Le cycle s'achève et un autre commence.
 
 
 <h1> Liens utiles </h1>
