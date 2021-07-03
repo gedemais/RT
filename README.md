@@ -1,9 +1,15 @@
 # RT
-Everything started and finished here. Damned pixel matrice.
+Another damned pixel matrice. Again.
 
 <h1>Features :</h1>
 
-- [ ] Raytracer core with OpenCL
+- [ ] Architecture setup
+
+
+- [ ] Raytracer core base with OpenCL
+
+
+- [ ] Global illumination, spots and shadows
 
 
 - [ ] Reflection, refraction
@@ -24,7 +30,7 @@ de config. (resolution, position et inclinaison de la camera, path vers le fichi
 mouvements / rotation de camera, path vers le fichier video, path vers le fichier scene)
 
 
-- [ ] Anti-aliasings MSAA / FSAA
+- [ ] Anti-aliasings (Plusieurs eventuellement)
 
 
 - [ ] Subdivision de l'espace
@@ -37,3 +43,14 @@ Lancer un rayon pour plusieurs pixels pour diviser la quantite de calcul (par 4,
 - [ ] Move bluring
 Voxelisation plus forte sur les cotes de l'image pendant le mouvements, a ajuster
 avec un ratio.
+
+<h1> GitFlow </h1>
+
+
+<h1> Liens utiles </h1>
+Raytracing course :
+https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing
+
+Anti-aliasing algorithm choice :
+https://www.malekal.com/quest-ce-que-anti-aliasing-et-anticrenelage-fxaa-smaa-msaa-ssaa-txaa/#FXAA_Fast_Approximate_Anti-Aliasing
+

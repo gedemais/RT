@@ -1,0 +1,36 @@
+Meeting 0 :
+
+Lire le sujet a 4.
+
+Definir une duree de travail (de la conception au rendu) et une qualite du rendu final
+(1 - 10) individuelle, en discuter ensemble pour se mettre d'accord sur des valeurs
+ok pour tout le monde.
+
+Revoir la liste des features dans le sujet + le README, et bien les comprendre.
+Definir des priorites sur 10 pour chacunes des features secondaires.
+Trier les features par priorites, puis les assigner a chaque personne.
+
+----------------------------------
+Se documenter sur le raytracing et sur ses features perso.
+----------------------------------
+
+Meeting 1 :
+
+Estimation du temps de travail de chaque feature sur 10, nouvelle repartition des
+features si necessaire.
+
+Definir l'architecture macro du projet :
+- Pipeline de calcul du raytracer.
+- Gestion des evenements utilisateurs dans les differents modes.
+- Stockage de la meta-data (data structures dans le code + fichier(s) de config + .obj).
+- Prevision / Creation des contrats d'interfaces entre les differents elements de l'architecture macro.
+
+Meeting 2 :
+
+Terminer les definitions macro
+
+Assembler l'architecture et les contrats d'interface.
+
+Definir une methode de TDD.
+
+Introduire la libft de maboye.
