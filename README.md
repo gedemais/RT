@@ -3,12 +3,6 @@ Another damned pixel matrice. Again.
 
 <h1>Features :</h1>
 
-- [ ] Architecture setup
-
-
-- [ ] Raytracer core base with OpenCL
-
-
 - [ ] Global illumination, spots and shadows
 
 
