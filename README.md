@@ -67,7 +67,7 @@ en avance fait partie des bonnes pratiques.
 
 <h2>Nomenclature Git</h2>
 
-- Branches secondaires (persos) : feature-cycle-nom_de_la_tache (ex : feature-00-setup_mlx)
+- Branches secondaires (persos) : nom-cycle-nom_de_la_tache (ex : gedemais-00-setup_OpenCL)
 
 <h1> Liens utiles </h1>
 
@@ -82,4 +82,4 @@ https://www.malekal.com/quest-ce-que-anti-aliasing-et-anticrenelage-fxaa-smaa-ms
 Nous utilisons la minilibx pour rendre nos images de synthese dans une fenetre.
 Dans le but d'etre cross-platform, nous utilisons a la fois la version MacOs et
 la version Linux de la librairie. Il faut donc verifier pour chaque appel que la
-fonction desiree est disponible dans les deux librairies.
+fonction desiree est disponible dans les deux versions de la librairie.

@@ -28,12 +28,12 @@ OBJ=$(SRC:.c=.o)
 OS = $(shell uname)
 
 # Libs
-ifeq ($(OS), "Darwin") # MacOs
-MLX_PATH=./lib/mlx_opengl/
+ifeq ($(OS), Darwin) # MacOs
+MLX_PATH=lib/mlx_opengl/
 endif
 
-ifeq ($(OS), "Linux") # Linux
-MLX_PATH=./lib/mlx_linux/
+ifeq ($(OS), Linux) # Linux
+MLX_PATH=lib/mlx_linux/
 endif
 
 MLX=$(MLX_PATH)libmlx.a
@@ -57,7 +57,6 @@ clean:
 	@echo "Libft clean"
 
 fclean: clean
-	@make -C $(MLX_PATH) fclean
 	@rm -rf $(NAME)
 	@rm -rf $(NAME).dSYM
 
