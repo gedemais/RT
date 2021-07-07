@@ -77,7 +77,6 @@ https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tra
 Anti-aliasing algorithm choice :
 https://www.malekal.com/quest-ce-que-anti-aliasing-et-anticrenelage-fxaa-smaa-msaa-ssaa-txaa/#FXAA_Fast_Approximate_Anti-Aliasing
 
-
 <h1> Libs </h1>
 Nous utilisons la minilibx pour rendre nos images de synthese dans une fenetre.
 Dans le but d'etre cross-platform, nous utilisons a la fois la version MacOs et
