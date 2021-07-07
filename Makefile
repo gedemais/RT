@@ -25,9 +25,18 @@ INC=$(addprefix $(INC_PATH), $(INC_NAME))
 
 OBJ=$(SRC:.c=.o)
 
-########################## Librarys ######################
+OS = $(shell uname)
 
-##########################################################
+# Libs
+ifeq ($(OS), "Darwin") # MacOs
+MLX_PATH=./lib/mlx_opengl/
+endif
+
+ifeq ($(OS), "Linux") # Linux
+MLX_PATH=./lib/mlx_linux/
+endif
+
+MLX=$(MLX_PATH)libmlx.a
 
 all: $(NAME)
 
@@ -43,10 +52,12 @@ $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 	@$(CC) $(FLAGS) -I$(INC_PATH) -o $@ -c $<
 
 clean:
+	make -C $(MLX_PATH) clean
 	@rm -rf $(OBJ)
 	@echo "Libft clean"
 
 fclean: clean
+	@make -C $(MLX_PATH) fclean
 	@rm -rf $(NAME)
 	@rm -rf $(NAME).dSYM
 
