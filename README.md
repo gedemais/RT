@@ -56,15 +56,6 @@ branches secondaires pour chacune des taches qu'ils se sont attribués, puis dé
 on peut s'assurer du bon fonctionnement global du code intégré, puis merge qa et master. Le cycle s'achève
 et un autre commence, après un meeting et une éventuelle pause.
 
-En cas de retard :
-Les branches secondaires non terminées sont remises au cycle suivant. Les taches définies pour la feature
-bloquée par le retard sont réattribuées au meeting de fin de cycle, et l'équipe peut continuer a progresser
-sur d'autres branches secondaires en parallèle.
-
-L'avance n'est pas un problème, il suffit de préciser dans le nom des nouvelles branches secondaires créées
-qu'elles concernent le cycle suivant, et pas celui en cours. Consulter l'équipe avant de commencer une tache
-en avance fait partie des bonnes pratiques.
-
 <h2>Nomenclature Git</h2>
 
 - Branches secondaires (persos) : nom-cycle-nom_de_la_tache (ex : gedemais-00-setup_OpenCL)
@@ -76,9 +67,3 @@ https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tra
 
 Anti-aliasing algorithm choice :
 https://www.malekal.com/quest-ce-que-anti-aliasing-et-anticrenelage-fxaa-smaa-msaa-ssaa-txaa/#FXAA_Fast_Approximate_Anti-Aliasing
-
-<h1> Libs </h1>
-Nous utilisons la minilibx pour rendre nos images de synthese dans une fenetre.
-Dans le but d'etre cross-platform, nous utilisons a la fois la version MacOs et
-la version Linux de la librairie. Il faut donc verifier pour chaque appel que la
-fonction desiree est disponible dans les deux versions de la librairie.
