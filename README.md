@@ -9,7 +9,9 @@ Another damned pixel matrice. Again.
 
 - [ ] Kernel raycaster (Raytracer core shader)
 
-- [ ] Fichier scène (camera, objets, fichiers ressources, .obj, .mtl...)
+- [ ] Objets mathématiques obligatoires (plan, cone, cylindre, sphère)
+
+- [ ] Fichier scène (résolution, camera, objets, fichiers ressources, .obj, .mtl...)
 
 - [ ] Parsing de fichiers .obj et .mtl
 
