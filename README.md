@@ -3,40 +3,54 @@ Another damned pixel matrice. Again.
 
 <h1>Features :</h1>
 
-- [ ] Global illumination, spots and shadows
+<h2> Basics </h2>
 
+- [ ] Architecture host OpenCL
 
-- [ ] Reflection, refraction
+- [ ] Kernel raycaster (Raytracer core shader)
 
+- [ ] Fichier scène (camera, objets, fichiers ressources, .obj, .mtl...)
 
-- [ ] Gestion des materiaux pousses
+- [ ] Parsing de fichiers .obj et .mtl
 
+<h2> Mandatory </h2>
+
+- [ ] Transparence
+
+- [ ] Modification de l’ombre selon la transparence des objets
+
+- [ ] Réflexion
+
+- [ ] Réfraction
+
+- [ ] Textures
+
+- [ ] Interface utilisateur
+
+<h2> Bonus </h2>
 
 - [ ] FPS : Mode d'exploration en temps reel de la scene en FPS
-
 
 - [ ] Image / Screenshot : Rendu d'une image a partir d'une scene et d'un fichier
 de config. (resolution, position et inclinaison de la camera, path vers le fichier)
 
-
-- [ ] Video : Rendu d'une video a partir d'une scene et d'un fichier de config.
+- [ ] Video : Rendu d'une video a partir d'une scene et d'un fichier d'animation.
 (resolution, fps, position et inclinaison de la camera, mouvements / rotation de meshs,
 mouvements / rotation de camera, path vers le fichier video, path vers le fichier scene)
 
-
 - [ ] Anti-aliasings (Plusieurs eventuellement)
 
-
-- [ ] Subdivision de l'espace
-
+- [ ] Subdivision de l'espace pour les scenes .obj
 
 - [ ] Voxelisation
 Lancer un rayon pour plusieurs pixels pour diviser la quantite de calcul (par 4, 9, 16, 25)
 
-
 - [ ] Move bluring
 Voxelisation plus forte sur les cotes de l'image pendant le mouvements, a ajuster
 avec un ratio.
+
+<h1> Questions </h1>
+gedemais : Le sujet demande la possibilité de manipulations de la scene en live. Quel interface utiliser entre l'user et le model ?
 
 <h1> Development & GitFlow </h1>
 Notre méthode de développement actuelle est inspirée de la méthode agile.
