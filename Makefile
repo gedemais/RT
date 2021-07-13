@@ -4,7 +4,7 @@ include scripts/incs.mk
 NAME=rt
 
 CC=gcc
-FLAGS= -Wall -Werror -Wextra -Weverything
+FLAGS= -Wall -Werror -Wextra
 
 # Flags variables
 DEBUG ?= 0
