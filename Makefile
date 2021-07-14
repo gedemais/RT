@@ -28,17 +28,18 @@ OBJ=$(SRC:.c=.o)
 OS = $(shell uname)
 
 # Libs
-ifeq ($(OS), Darwin) # MacOs
-MLX_PATH=lib/mlx_opengl/
-MLX=$(MLX_PATH)libmlx.a
-MLX_FLAGS= -I lib/mlx_opengl
-MLX_LINKERS=$(MLX) -lm -framework OpenGL -framework AppKit
-endif
+#ifeq ($(OS), Darwin) # MacOs
+#MLX_PATH=lib/mlx_opengl/
+#MLX=$(MLX_PATH)libmlx.a
+#MLX_FLAGS= -Ilib/mlx_opengl
+#MLX_LINKERS=$(MLX) -lm -framework OpenGL -framework AppKit
+#endif
 
-ifeq ($(OS), Linux) # Linux
+ifeq ($(OS), Darwin) # Linux
 MLX_PATH=lib/mlx_linux/
 MLX=$(MLX_PATH)libmlx.a
-MLX_FLAGS=-L./lib/mlx_linux $(MLX) -lmlx -L/usr/X11/include/ -lXext -lX11 -lm
+MLX_FLAGS= -Ilib/mlx_linux
+MLX_LINKERS=$(MLX) -L/usr/X11/include/ -lXext -lX11 -lm
 endif
 
 MLX=$(MLX_PATH)libmlx.a
