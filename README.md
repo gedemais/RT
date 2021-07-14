@@ -5,11 +5,19 @@ Another damned pixel matrice. Again.
 
 <h2> Basics </h2>
 
+- [ ] Architecture MLX
+
 - [ ] Architecture host OpenCL
 
 - [ ] Kernel raycaster (Raytracer core shader)
 
+- [ ] Luminosite, Lumiere ambiante
+
 - [ ] Objets mathématiques obligatoires (plan, cone, cylindre, sphère)
+
+- [ ] Multi-Spots, Ombres
+
+- [ ] Brillance
 
 - [ ] Fichier scène (résolution, camera, objets, fichiers ressources, .obj, .mtl...)
 
@@ -27,9 +35,9 @@ Another damned pixel matrice. Again.
 
 - [ ] Textures
 
-- [ ] Interface utilisateur
-
 <h2> Bonus </h2>
+
+- [ ] Interface utilisateur
 
 - [ ] FPS : Mode d'exploration en temps reel de la scene en FPS
 
