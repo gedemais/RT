@@ -30,31 +30,38 @@ OS = $(shell uname)
 # Libs
 ifeq ($(OS), Darwin) # MacOs
 MLX_PATH=lib/mlx_opengl/
+MLX=$(MLX_PATH)libmlx.a
+MLX_FLAGS= -I lib/mlx_opengl
+MLX_LINKERS=$(MLX) -lm -framework OpenGL -framework AppKit
 endif
 
 ifeq ($(OS), Linux) # Linux
 MLX_PATH=lib/mlx_linux/
+MLX=$(MLX_PATH)libmlx.a
+MLX_FLAGS=-L./lib/mlx_linux $(MLX) -lmlx -L/usr/X11/include/ -lXext -lX11 -lm
 endif
 
 MLX=$(MLX_PATH)libmlx.a
 
-all: $(NAME)
+all: $(MLX) $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Linking $(NAME)..."
-	$(CC) $(FLAGS) -I$(INC_PATH) -o $(NAME) $(OBJ) 
+	$(CC) $(FLAGS) -I$(INC_PATH) -o $(NAME) $(OBJ) $(MLX_LINKERS)
 
 $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 	@tput civis
 	@printf " Compiling $<"
 	@printf "                                       \\r"
 	@tput cnorm
-	@$(CC) $(FLAGS) -I$(INC_PATH) -o $@ -c $<
+	@$(CC) $(FLAGS) -I$(INC_PATH) $(MLX_FLAGS) -o $@ -c $<
+
+$(MLX): $(MLX_PATH)
+	make -C $(MLX_PATH)
 
 clean:
 	make -C $(MLX_PATH) clean
 	@rm -rf $(OBJ)
-	@echo "Libft clean"
 
 fclean: clean
 	@rm -rf $(NAME)
