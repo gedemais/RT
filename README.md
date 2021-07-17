@@ -35,6 +35,8 @@ Another damned pixel matrice. Again.
 
 - [ ] Textures
 
+- [ ] Objets composés : cube, pyramide, tétraèdre, ...
+
 <h2> Bonus </h2>
 
 - [ ] Interface utilisateur
