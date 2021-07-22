@@ -28,43 +28,54 @@ OBJ=$(SRC:.c=.o)
 OS = $(shell uname)
 
 # Libs
+#
 ifeq ($(OS), Darwin) # MacOs
-MLX_PATH=lib/mlx_opengl/
-MLX=$(MLX_PATH)libmlx.a
-MLX_FLAGS= -Ilib/mlx_opengl
+FLAGS+=-DMACOS
+MLX_PATH=libs/mlx_opengl
+MLX=$(MLX_PATH)/libmlx.a
+MLX_FLAGS= -Ilibs/mlx_opengl
 MLX_LINKERS=$(MLX) -lm -framework OpenGL -framework AppKit
 endif
 
 ifeq ($(OS), Linux) # Linux
-MLX_PATH=lib/mlx_linux/
-MLX=$(MLX_PATH)libmlx.a
-MLX_FLAGS= -Ilib/mlx_linux
+FLAGS+=-DLINUX
+MLX_PATH=libs/mlx_linux
+MLX=$(MLX_PATH)/libmlx.a
+MLX_FLAGS= -Ilibs/mlx_linux
 MLX_LINKERS=$(MLX) -L/usr/X11/include/ -lXext -lX11 -lm
 endif
 
-MLX=$(MLX_PATH)libmlx.a
+MLX=$(MLX_PATH)/libmlx.a
 
-all: $(MLX) $(NAME)
+LIBFT_PATH=libs/libft
+LIBFT=$(LIBFT_PATH)/libft.a
+
+all: $(LIBFT) $(MLX) $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Linking $(NAME)..."
-	$(CC) $(FLAGS) -I$(INC_PATH) -o $(NAME) $(OBJ) $(MLX_LINKERS)
+	$(CC) $(FLAGS) -I$(INC_PATH) -I$(LIBFT_PATH) -o $(NAME) $(OBJ) $(MLX_LINKERS) $(LIBFT)
 
 $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 	@tput civis
 	@printf " Compiling $<"
 	@printf "                                       \\r"
 	@tput cnorm
-	@$(CC) $(FLAGS) -I$(INC_PATH) $(MLX_FLAGS) -o $@ -c $<
+	@$(CC) $(FLAGS) -I$(INC_PATH) -I$(LIBFT_PATH) $(MLX_FLAGS) -o $@ -c $<
+
+$(LIBFT): $(LIBFT_PATH)
+	make -C $(LIBFT_PATH)
 
 $(MLX): $(MLX_PATH)
 	make -C $(MLX_PATH)
 
 clean:
-	make -C $(MLX_PATH) clean
+	@make -C $(MLX_PATH) clean
+	@make -C $(LIBFT_PATH) clean
 	@rm -rf $(OBJ)
 
 fclean: clean
+	@make -C $(LIBFT_PATH) fclean
 	@rm -rf $(NAME)
 	@rm -rf $(NAME).dSYM
 

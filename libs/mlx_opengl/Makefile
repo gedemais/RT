@@ -27,7 +27,6 @@ $(NOM):	$(OBJ)
 	@ranlib $(NOM)
 
 clean:
-	@echo "MinilibX clean"
 	@rm -f $(NOM) $(OBJ) *~
 	@rm -f mlx_app
 
