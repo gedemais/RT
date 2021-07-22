@@ -38,4 +38,6 @@ struct	s_rt_env
 
 int		rt_setup(t_rt_env *env, int argc, char **argv);
 
+int		init_mlx(t_rt_env *env);
+
 #endif
