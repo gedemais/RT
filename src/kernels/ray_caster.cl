@@ -1,4 +1,12 @@
 
+
+typedef struct	s_kernel_data
+{
+	short	img_wdt;
+	short	img_hgt;
+}				t_kernel_data;
+
+
 typedef struct	s_vec3d
 {
 	float	x;
@@ -21,10 +29,10 @@ typedef struct	s_object
 	char	type;
 }				t_object;
 
-__kernel void	ray_caster(__global int *img, __global t_object *objects)
+__kernel void	ray_caster(__global int *img, __global t_object *objects, t_kernel_data data)
 {
 	const unsigned short x = get_global_id(0);
 	const unsigned short y = get_global_id(1);
 
-	img[y * 1280 + x] = 0xffffff;
+	img[y * data.img_wdt + x] = 0xffffff;
 }

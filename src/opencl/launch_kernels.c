@@ -32,6 +32,7 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 	// Set kernel function's arguments
 	clSetKernelArg(cl->kernels[K_RAY_CASTER], 0, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_IMAGE]);
 	clSetKernelArg(cl->kernels[K_RAY_CASTER], 1, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_OBJECTS]);
+	clSetKernelArg(cl->kernels[K_RAY_CASTER], 2, sizeof(t_kernel_data), (void*)&cl->data);
 
 	// Launch the kernel on the work-group
 	clEnqueueNDRangeKernel(cl->queue, cl->kernels[K_RAY_CASTER], 2, NULL,
@@ -44,7 +45,6 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 		ft_putstr_fd("Copy from GPU failed\n", 2);
 		return (-1); // To add
 	}
-
 
 	return (0);
 }
