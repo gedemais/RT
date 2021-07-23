@@ -58,8 +58,5 @@ int		exit_rt(t_rt_env *env);
 
 void	draw_pixel(t_mlx *mlx, uint32_t x, uint32_t y, int color);
 
-const char	*clGetErrorString(cl_int error);
-int			init_opencl(t_rt_env *env);
-int			launch_ray_caster_kernel(t_rt_env *env);
 
 #endif

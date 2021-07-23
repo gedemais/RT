@@ -7,6 +7,7 @@ void	rt_error(int exit_code)
 		[ERROR_KERNEL_MAPPING_FAILED] = "Failed to map OpenCL kernels.",
 		[ERROR_PROGRAM_CREATION_FAILED] = "Failed to create OpenCL program.",
 		[ERROR_KERNEL_BUILD_FAILED] = "Failed to build OpenCL kernel.",
+		[ERROR_KERNEL_CREATION_FAILED] = "Failed to create OpenCL kernel after build.",
 		[ERROR_NO_CL_DEVICE] = "Failed to find a compatible device for OpenCL kernels.",
 		[ERROR_CL_CONTEXT_CREATION_FAILED] = "Failed to create an execution context for OpenCL kernels.",
 		[ERROR_CL_CMD_QUEUE_CREATION_FAILED] = "Failed to create a command queue for OpenCL kernels.",

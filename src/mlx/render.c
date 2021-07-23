@@ -1,7 +1,5 @@
 #include "main.h"
 
-
-
 int		render(void *param)
 {
 	t_rt_env	*env;
@@ -10,6 +8,7 @@ int		render(void *param)
 	env = (t_rt_env*)param;
 	mlx = &env->mlx;
 
+	launch_ray_caster_kernel(env);
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, mlx->img_ptr, 0, 0);
 	return (0);
 }

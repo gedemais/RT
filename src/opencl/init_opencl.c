@@ -17,12 +17,12 @@ static void		print_log(t_opencl *cl, unsigned int index)
 static int	build_kernel(t_opencl *cl, char *code, unsigned int index)
 {
 	cl_int	errcode;
+	const char	*kernels_names[K_MAX] = {
+											[K_RAY_CASTER] = "ray_caster"};
 
-	cl->programs[index] = clCreateProgramWithSource(cl->context, 1,
-													(const char**)&code, NULL, &errcode);
-
+	cl->programs[index] = clCreateProgramWithSource(cl->context, 1, (const char**)&code, NULL, &errcode);
 	if (errcode != CL_SUCCESS)
-		return (ERROR_PROGRAM_CREATION_FAILED);
+		return (cl_failure(ERROR_PROGRAM_CREATION_FAILED, errcode));
 
 	if (clBuildProgram(cl->programs[index], 0, NULL, NULL, NULL, NULL) != CL_SUCCESS)
 	{
@@ -30,13 +30,17 @@ static int	build_kernel(t_opencl *cl, char *code, unsigned int index)
 		return (ERROR_KERNEL_BUILD_FAILED);
 	}
 
+	cl->kernels[index] = clCreateKernel(cl->programs[index], kernels_names[index], &errcode);
+	if (errcode != CL_SUCCESS)
+		return (cl_failure(ERROR_KERNEL_CREATION_FAILED, errcode));
+
 	return (0);
 }
 
 static int	map_kernels(t_opencl *cl)
 {
 	const char	*kernels_paths[K_MAX] = {
-				[K_DEV] = "src/kernels/ray_caster.cl"
+				[K_RAY_CASTER] = "src/kernels/ray_caster.cl"
 				};
 	struct stat	info;
 	int			fd;
@@ -51,7 +55,7 @@ static int	map_kernels(t_opencl *cl)
 		if ((code = mmap(0, (size_t)info.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
 			return (ERROR_KERNEL_MAPPING_FAILED);
 
-		if ((err_code = build_kernel(cl, code, i) != 0))
+		if ((err_code = build_kernel(cl, code, i)) != 0)
 		{
 			munmap(code, info.st_size);
 			return (err_code);
@@ -91,7 +95,8 @@ int			init_opencl(t_rt_env *env)
 	int		ret;
 
 	if ((ret = opencl_arch(env)) != 0
-		|| (ret = map_kernels(&env->cl_env)) != 0)
+		|| (ret = map_kernels(&env->cl_env)) != 0
+		|| (ret = create_cl_buffers(env)) != 0)
 		return (ret);
 	return (0);
 }
