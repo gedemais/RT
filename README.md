@@ -6,9 +6,9 @@ Another damned pixel matrice. Again.
 
 <h2> Basics </h2>
 
-- [ ] Architecture MLX
+- [x] Architecture MLX
 
-- [ ] Architecture host OpenCL
+- [x] Architecture host OpenCL
 
 - [ ] Kernel raycaster (Raytracer core shader)
 
