@@ -1,6 +1,12 @@
 #include "main.h"
 
-static void	print_log(t_opencl *cl, unsigned int index)
+static int	cl_failure(int error_code, cl_int errcode)
+{
+	ft_putendl_fd(clGetErrorString(errcode), 2);
+	return (error_code);
+}
+
+static void		print_log(t_opencl *cl, unsigned int index)
 {
 	char	log[65536];
 
@@ -64,18 +70,19 @@ static int	opencl_arch(t_rt_env *env)
 	cl = (t_opencl*)&env->cl_env;
 
 	// Look for a OpenCL compatible GPU
-	if (clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &cl->device, NULL) != CL_SUCCESS)
-		return (-1); // To spec
+	if ((errcode = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &cl->device, NULL) != CL_SUCCESS))
+		return (cl_failure(ERROR_NO_CL_DEVICE, errcode));
 
 	// Create a new execution context
 	cl->context = clCreateContext(NULL, 1, &cl->device, NULL, NULL, &errcode);
 	if (errcode != CL_SUCCESS)
-		return (-1); // To spec
+		return (cl_failure(ERROR_CL_CONTEXT_CREATION_FAILED, errcode));
 
 	// Associate it a command queue
 	cl->queue = clCreateCommandQueue(cl->context, cl->device, 0, &errcode);
 	if (errcode != CL_SUCCESS)
-		return (-1); // To spec
+		return (cl_failure(ERROR_CL_CMD_QUEUE_CREATION_FAILED, errcode)); // To spec
+
 	return (0);
 }
 
@@ -83,7 +90,7 @@ int			init_opencl(t_rt_env *env)
 {
 	int		ret;
 
-	if ((ret = opencl_arch(env))
+	if ((ret = opencl_arch(env)) != 0
 		|| (ret = map_kernels(&env->cl_env)) != 0)
 		return (ret);
 	return (0);
