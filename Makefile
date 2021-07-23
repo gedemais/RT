@@ -54,7 +54,7 @@ all: $(LIBFT) $(MLX) $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Linking $(NAME)..."
-	$(CC) $(FLAGS) -I$(INC_PATH) -I$(LIBFT_PATH) -o $(NAME) $(OBJ) $(MLX_LINKERS) $(LIBFT)
+	$(CC) $(FLAGS) -I$(INC_PATH) -I$(LIBFT_PATH) -o $(NAME) $(OBJ) $(MLX_LINKERS) -framework OpenCL $(LIBFT)
 
 $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 	@tput civis

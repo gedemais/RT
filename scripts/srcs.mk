@@ -5,4 +5,7 @@ SRC_NAME=core/main.c\
 		 \
 		 mlx/init_mlx.c\
 		 mlx/events.c\
-		 mlx/render.c
+		 mlx/render.c\
+		 mlx/tools.c\
+		 \
+		 opencl/init_opencl.c

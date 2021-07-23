@@ -9,4 +9,6 @@ typedef struct s_vec2d t_vec2d;
 typedef struct s_point3d t_point3d;
 typedef struct s_vec3d t_vec3d;
 
+typedef struct s_opencl t_opencl;
+
 #endif

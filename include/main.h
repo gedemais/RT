@@ -2,12 +2,15 @@
 # define MAIN_H
 
 # include "types_definition.h"
+# include "opencl.h"
 # include "libft.h"
 # include "mlx.h"
 # include "vectors.h"
 # include "errors.h"
 
-
+# include <stdio.h>
+# include <sys/stat.h>
+# include <sys/mman.h>
 
 #ifdef MACOS
 # include "macos_keys.h"
@@ -36,7 +39,8 @@ struct			s_mlx
 
 struct	s_rt_env
 {
-	t_mlx	mlx;
+	t_mlx		mlx;
+	t_opencl	cl_env;
 };
 
 int		rt_setup(t_rt_env *env, int argc, char **argv);
@@ -52,5 +56,8 @@ int		mouse_position(int x, int y, void *param);
 int		render(void *param);
 int		exit_rt(t_rt_env *env);
 
+void	draw_pixel(t_mlx *mlx, uint32_t x, uint32_t y, int color);
+
+int		init_opencl(t_rt_env *env);
 
 #endif
