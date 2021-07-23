@@ -7,6 +7,7 @@
 # include "mlx.h"
 # include "vectors.h"
 # include "errors.h"
+# include "objects.h"
 
 # include <stdio.h>
 # include <sys/stat.h>
@@ -41,6 +42,7 @@ struct	s_rt_env
 {
 	t_mlx		mlx;
 	t_opencl	cl_env;
+	t_dynarray	objects;
 };
 
 int		rt_setup(t_rt_env *env, int argc, char **argv);

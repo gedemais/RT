@@ -1,15 +1,39 @@
 #include "main.h"
+/*
+static void	print_objects(t_rt_env *env)
+{
+	t_object	*obj;
+
+	for (unsigned int i = 0; i < (unsigned)env->objects.nb_cells; i++)
+	{
+		obj = dyacc(&env->objects, i);
+		switch obj->type:
+		case TYPE_SPHERE:
+			printf("SPHERE : %f %f %f | %f\n", obj->sphere.origin.x, obj->sphere.origin.y, obj->sphere.origin.z, obj->sphere.radius);
+		break;
+		default:
+	}
+}*/
 
 int		launch_ray_caster_kernel(t_rt_env *env)
 {
 	t_opencl	*cl;
 	t_mlx		*mlx;
+	cl_int		errcode;
 
 	cl = ((t_opencl*)&env->cl_env);
 	mlx = (t_mlx*)&env->mlx;
 
-	clSetKernelArg(cl->kernels[K_RAY_CASTER], 0, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_IMAGE]);
+	// Update data in buffers and params
+	errcode = clEnqueueWriteBuffer(cl->queue, cl->buffers[CL_BUFF_OBJECTS],
+									CL_FALSE, 0, env->objects.nb_cells * sizeof(t_object),
+									env->objects.c, 0, NULL, NULL);
 
+	// Set kernel function's arguments
+	clSetKernelArg(cl->kernels[K_RAY_CASTER], 0, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_IMAGE]);
+	clSetKernelArg(cl->kernels[K_RAY_CASTER], 1, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_OBJECTS]);
+
+	// Launch the kernel on the work-group
 	clEnqueueNDRangeKernel(cl->queue, cl->kernels[K_RAY_CASTER], 2, NULL,
 							(size_t[]){mlx->width, mlx->height}, NULL, 0, NULL, NULL);
 
@@ -20,5 +44,7 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 		ft_putstr_fd("Copy from GPU failed\n", 2);
 		return (-1); // To add
 	}
+
+
 	return (0);
 }

@@ -16,6 +16,10 @@ int		create_cl_buffers(t_rt_env *env)
 	buffers_sizes[CL_BUFF_IMAGE] = mlx->width * mlx->height * 4;
 	buffers_flags[CL_BUFF_IMAGE] = CL_MEM_WRITE_ONLY;
 
+	// Objects buffer
+	buffers_sizes[CL_BUFF_OBJECTS] = sizeof(t_object) * MAX_OBJECTS;
+	buffers_flags[CL_BUFF_IMAGE] = CL_MEM_READ_ONLY;
+
 	// Buffers allocations
 	for (unsigned int i = 0; i < CL_BUFF_MAX; i++)
 	{

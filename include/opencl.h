@@ -12,7 +12,14 @@ enum	e_kernels
 enum	e_buffers
 {
 	CL_BUFF_IMAGE,
+	CL_BUFF_OBJECTS,
 	CL_BUFF_MAX
+};
+
+struct	s_kernel_data
+{
+	short	img_wdt;
+	short	img_hgt;
 };
 
 struct	s_opencl
@@ -23,6 +30,7 @@ struct	s_opencl
 	cl_program			programs[K_MAX];
 	cl_kernel			kernels[K_MAX];
 	cl_mem				buffers[CL_BUFF_MAX];
+	t_kernel_data		data;
 };
 
 const char	*clGetErrorString(cl_int error);
