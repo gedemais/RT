@@ -1,5 +1,7 @@
 #include "main.h"
 
+
+
 int		render(void *param)
 {
 	t_rt_env	*env;

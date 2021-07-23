@@ -5,13 +5,13 @@
 
 enum	e_kernels
 {
-	K_DEV,
+	K_RAY_CASTER,
 	K_MAX
 };
 
 enum	e_buffers
 {
-	BUFF_DEV,
+	BUFF_IMAGE,
 	BUFF_MAX
 };
 

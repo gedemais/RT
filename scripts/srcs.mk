@@ -8,4 +8,5 @@ SRC_NAME=core/main.c\
 		 mlx/render.c\
 		 mlx/tools.c\
 		 \
-		 opencl/init_opencl.c
+		 opencl/init_opencl.c\
+		 opencl/launch_kernels.c
