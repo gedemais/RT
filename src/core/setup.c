@@ -28,6 +28,7 @@ int	rt_setup(t_rt_env *env, int argc, char **argv)
 	sphere.type = TYPE_SPHERE;
 	init_dynarray(&env->objects, sizeof(t_object), 8);
 	push_dynarray(&env->objects, &sphere, false);
+	push_dynarray(&env->objects, &sphere, false);
 	//
 
 	if ((ret = init_mlx(env))

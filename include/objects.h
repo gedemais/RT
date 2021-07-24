@@ -36,14 +36,13 @@ struct	s_cone
 
 struct	s_sphere
 {
-	t_vec3d	origin; // Center point of the sphere
-	float	radius; // Radius of the sphere
+	t_vec3d		origin; // Center point of the sphere
+	cl_float	radius; // Radius of the sphere
 };
 
 struct	s_object
 {
-	int		color; // Color of the object
-	int		type;
+	cl_int	color; // Color of the object
 	union
 	{
 		// t_polygon poly;
@@ -53,6 +52,7 @@ struct	s_object
 		// t_cone	cone;
 		// t_;
 	};
+	cl_int	type;
 };
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef VECTORS_H
 # define VECTORS_H
 
+# include <OpenCL/CL.h>
+
 struct	s_point2d
 {
 	unsigned int	x;
@@ -9,8 +11,8 @@ struct	s_point2d
 
 struct	s_vec2d
 {
-	float	x;
-	float	y;
+	cl_float	x;
+	cl_float	y;
 };
 
 struct	s_point3d
@@ -22,9 +24,9 @@ struct	s_point3d
 
 struct	s_vec3d
 {
-	float	x;
-	float	y;
-	float	z;
+	cl_float	x;
+	cl_float	y;
+	cl_float	z;
 };
 
 #endif
