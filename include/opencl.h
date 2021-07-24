@@ -16,10 +16,15 @@ enum	e_buffers
 	CL_BUFF_MAX
 };
 
-struct	s_kernel_data
+struct	s_camera
 {
-	short	img_wdt;
-	short	img_hgt;
+	t_vec3d		o;
+	short		img_wdt;
+	short		img_hgt;
+	float		aspect_ratio;
+	float		fov;
+	float		fov_rad;
+	uint32_t	nb_objects;
 };
 
 struct	s_opencl
@@ -30,7 +35,7 @@ struct	s_opencl
 	cl_program			programs[K_MAX];
 	cl_kernel			kernels[K_MAX];
 	cl_mem				buffers[CL_BUFF_MAX];
-	t_kernel_data		data;
+	t_camera			cam;
 };
 
 const char	*clGetErrorString(cl_int error);

@@ -12,6 +12,7 @@ enum	e_object_type
 	TYPE_CONE,
 	TYPE_MAX
 };
+
 /*
 struct	s_polygon
 {
@@ -41,6 +42,8 @@ struct	s_sphere
 
 struct	s_object
 {
+	int		color; // Color of the object
+	int		type;
 	union
 	{
 		// t_polygon poly;
@@ -50,7 +53,6 @@ struct	s_object
 		// t_cone	cone;
 		// t_;
 	};
-	char	type;
 };
 
 #endif

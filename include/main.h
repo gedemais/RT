@@ -2,10 +2,10 @@
 # define MAIN_H
 
 # include "types_definition.h"
+# include "vectors.h"
 # include "opencl.h"
 # include "libft.h"
 # include "mlx.h"
-# include "vectors.h"
 # include "errors.h"
 # include "objects.h"
 
