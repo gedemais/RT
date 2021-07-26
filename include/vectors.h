@@ -22,11 +22,4 @@ struct	s_point3d
 	unsigned int	z;
 };
 
-struct	s_vec3d
-{
-	cl_float	x;
-	cl_float	y;
-	cl_float	z;
-};
-
 #endif

@@ -25,13 +25,13 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 	// Update data in buffers and params
 	cl->cam.nb_objects = env->objects.nb_cells;
 	errcode = clEnqueueWriteBuffer(cl->queue, cl->buffers[CL_BUFF_OBJECTS],
-									CL_FALSE, 0, env->objects.nb_cells * sizeof(t_object),
+									CL_TRUE, 0, env->objects.nb_cells * sizeof(t_object),
 									env->objects.c, 0, NULL, NULL);
 
 	// Set kernel function's arguments
 	clSetKernelArg(cl->kernels[K_RAY_CASTER], 0, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_IMAGE]);
 	clSetKernelArg(cl->kernels[K_RAY_CASTER], 1, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_OBJECTS]);
-	clSetKernelArg(cl->kernels[K_RAY_CASTER], 2, sizeof(t_camera), (void*)&cl->cam);
+	clSetKernelArg(cl->kernels[K_RAY_CASTER], 2, sizeof(struct s_camera), (void*)&cl->cam);
 
 	// Launch the kernel on the work-group
 	clEnqueueNDRangeKernel(cl->queue, cl->kernels[K_RAY_CASTER], 2, NULL,

@@ -24,7 +24,6 @@ typedef struct	s_camera
 
 typedef struct	s_sphere
 {
-	void	*ptr;
 	float3	origin; // Center point of the sphere
 	float	radius; // Radius of the sphere
 }				t_sphere;
@@ -32,11 +31,11 @@ typedef struct	s_sphere
 typedef struct	s_object
 {
 	int		color; // Color of the object
+	int		type;
 	union
 	{
 		t_sphere	sphere;
 	};
-	int		type;
 }				t_object;
 
 //---------------------------------------------------------------------
@@ -103,9 +102,31 @@ __kernel void	ray_caster(__global int *img, __global t_object *objects, t_camera
 	const float3 ray_dir = compute_ray_direction(cam, x, y);
 
 	if (x == 0 && y == 0)
+	{
+		printf("nb_objects = %d\n", cam.nb_objects);
 		printf("origin : %f %f %f | radius : %f | color : %X\n", objects[0].sphere.origin.x, objects[0].sphere.origin.y, objects[0].sphere.origin.z, objects[0].sphere.radius, objects[0].color);
+	}
 
 	const int color = cast_ray(x, objects, cam, ray_dir);
 
 	img[y * cam.img_wdt + x] = color;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
