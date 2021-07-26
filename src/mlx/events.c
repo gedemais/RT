@@ -5,6 +5,10 @@ int		key_press(int key, void *param)
 	t_rt_env	*env;
 
 	env = (t_rt_env*)param;
+
+	if (key == KEY_ESCAPE)
+		exit_rt(env);
+
 	env->mlx.keys[key] = true;
 	return (0);
 }

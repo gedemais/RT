@@ -44,8 +44,6 @@ struct	s_sphere
 
 struct	s_object
 {
-	cl_int	color; // Color of the object
-	cl_int	type;
 	union
 	{
 		// t_polygon poly;
@@ -55,6 +53,8 @@ struct	s_object
 		// t_cone	cone;
 		// t_;
 	};
+	cl_float3	color; // Color of the object
+	cl_int		type;
 };
 
 #endif

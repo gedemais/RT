@@ -1,5 +1,5 @@
 #include "main.h"
-
+/*
 static void	print_objects(t_rt_env *env)
 {
 	t_object	*obj;
@@ -8,9 +8,9 @@ static void	print_objects(t_rt_env *env)
 	for (unsigned int i = 0; i < (unsigned)env->objects.nb_cells; i++)
 	{
 		obj = dyacc(&env->objects, i);
-		printf("SPHERE : %f %f %f | radius : %f | color : %x\n", obj->sphere.origin.x, obj->sphere.origin.y, obj->sphere.origin.z, obj->sphere.radius, obj->color);
+		printf("SPHERE : %f %f %f | radius : %f\n", obj->sphere.origin.x, obj->sphere.origin.y, obj->sphere.origin.z, obj->sphere.radius);
 	}
-}
+}*/
 
 int		launch_ray_caster_kernel(t_rt_env *env)
 {
@@ -21,7 +21,7 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 	cl = ((t_opencl*)&env->cl_env);
 	mlx = (t_mlx*)&env->mlx;
 
-	print_objects(env);
+	//print_objects(env);
 	// Update data in buffers and params
 	cl->cam.nb_objects = env->objects.nb_cells;
 	errcode = clEnqueueWriteBuffer(cl->queue, cl->buffers[CL_BUFF_OBJECTS],

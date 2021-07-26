@@ -23,7 +23,7 @@ struct	s_camera
 	cl_short		img_hgt;
 	cl_float		aspect_ratio;
 	cl_float		fov;
-	cl_float		fov_rad;
+	cl_float		brightness;
 	cl_uint			nb_objects;
 };
 
