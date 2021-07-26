@@ -3,14 +3,31 @@
 void	rt_error(int exit_code)
 {
 	const char	*error_messages[ERROR_MAX] = {
-		[ERROR_MLX_LAUNCH] = "Failed to launch MinilibX.",
-		[ERROR_KERNEL_MAPPING_FAILED] = "Failed to map OpenCL kernels.",
-		[ERROR_PROGRAM_CREATION_FAILED] = "Failed to create OpenCL program.",
-		[ERROR_KERNEL_BUILD_FAILED] = "Failed to build OpenCL kernel.",
-		[ERROR_KERNEL_CREATION_FAILED] = "Failed to create OpenCL kernel after build.",
-		[ERROR_NO_CL_DEVICE] = "Failed to find a compatible device for OpenCL kernels.",
-		[ERROR_CL_CONTEXT_CREATION_FAILED] = "Failed to create an execution context for OpenCL kernels.",
-		[ERROR_CL_CMD_QUEUE_CREATION_FAILED] = "Failed to create a command queue for OpenCL kernels.",
+		[ERROR_MALLOC_FAILED] = "rt : malloc failed.",
+		[ERROR_NO_SCENE] = "No scene file.",
+
+		[ERROR_MLX_LAUNCH] = "MinilibX : Launch failed",
+
+		[ERROR_KERNEL_MAPPING_FAILED] = "OpenCL : Failed to map kernels.",
+		[ERROR_PROGRAM_CREATION_FAILED] = "OpenCL : Failed to create program.",
+		[ERROR_KERNEL_BUILD_FAILED] = "OpenCL : Failed to build kernel.",
+		[ERROR_KERNEL_CREATION_FAILED] = "OpenCL : Failed to create kernel after build.",
+		[ERROR_NO_CL_DEVICE] = "OpenCL : Failed to find a compatible device for kernels.",
+		[ERROR_CL_CONTEXT_CREATION_FAILED] = "OpenCL : Failed to create an execution context for kernels.",
+		[ERROR_CL_CMD_QUEUE_CREATION_FAILED] = "OpenCL : Failed to create a command queue for kernels.",
+
+		[ERROR_SCENE_FILE_MEMORY_MAPPING_FAILED] = "scene_parser : Memory mapping of the scene file failed.",
+		[ERROR_INVALID_SCENE_FILE_PATH] = "scene_parser : Can not read scene file.",
+		[ERROR_NO_VAR_SPECIFIED_FOR_SET_CMD] = "scene_parser : No variable specified for \"set\" instruction in scene file.",
+		[ERROR_VARIABLE_NOT_FOUND] = "scene_parser : Mandatory variable not found.",
+		[ERROR_INVALID_VECTOR_SYNTAX] = "scene_parser : Invalid vector syntax.",
+		[ERROR_MISSING_COMPONENT_IN_VECTOR] = "scene_parser : Missing component in vector.",
+		[ERROR_INVALID_WINDOW_DIMENSION] = "scene_parser : Invalid window dimension.",
+		[ERROR_INVALID_FOV] = "scene_parser : Invalid fov value (0 - 180.0).",
+		[ERROR_INVALID_BRIGHTNESS] = "scene_parser : Invalid brightness value (0.0 - 1.0)",
+		[ERROR_INVALID_SET_CMD_SYNTAX] = "Invalid syntax for set command.",
+
+		//[] = "",
 	};
 	ft_putstr_fd("rt : ", 2);
 	ft_putendl_fd(error_messages[exit_code], 2);

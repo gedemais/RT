@@ -10,4 +10,8 @@ SRC_NAME=core/main.c\
 		 \
 		 opencl/init_opencl.c\
 		 opencl/launch_kernels.c\
-		 opencl/buffers.c
+		 opencl/buffers.c\
+		 \
+		 scene_parser/scene_parser.c\
+		 scene_parser/get_variables.c\
+		 scene_parser/var_parsing_fts.c

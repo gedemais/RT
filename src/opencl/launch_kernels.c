@@ -15,31 +15,31 @@ static void	print_objects(t_rt_env *env)
 int		launch_ray_caster_kernel(t_rt_env *env)
 {
 	t_opencl	*cl;
-	t_mlx		*mlx;
+	t_camera	*cam;
 	cl_int		errcode;
 
 	cl = ((t_opencl*)&env->cl_env);
-	mlx = (t_mlx*)&env->mlx;
+	cam = ((t_camera*)&env->scene.cam);
 
 	//print_objects(env);
 	// Update data in buffers and params
-	cl->cam.nb_objects = env->objects.nb_cells;
+	cam->nb_objects = env->scene.objects.nb_cells;
 	errcode = clEnqueueWriteBuffer(cl->queue, cl->buffers[CL_BUFF_OBJECTS],
-									CL_TRUE, 0, env->objects.nb_cells * sizeof(t_object),
-									env->objects.c, 0, NULL, NULL);
+									CL_TRUE, 0, env->scene.objects.nb_cells * sizeof(t_object),
+									env->scene.objects.c, 0, NULL, NULL);
 
 	// Set kernel function's arguments
 	clSetKernelArg(cl->kernels[K_RAY_CASTER], 0, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_IMAGE]);
 	clSetKernelArg(cl->kernels[K_RAY_CASTER], 1, sizeof(cl_mem), (void*)&cl->buffers[CL_BUFF_OBJECTS]);
-	clSetKernelArg(cl->kernels[K_RAY_CASTER], 2, sizeof(struct s_camera), (void*)&cl->cam);
+	clSetKernelArg(cl->kernels[K_RAY_CASTER], 2, sizeof(struct s_camera), (void*)cam);
 
 	// Launch the kernel on the work-group
 	clEnqueueNDRangeKernel(cl->queue, cl->kernels[K_RAY_CASTER], 2, NULL,
-							(size_t[]){mlx->width, mlx->height}, NULL, 0, NULL, NULL);
+							(size_t[]){cam->img_wdt, cam->img_hgt}, NULL, 0, NULL, NULL);
 
 	if (clEnqueueReadBuffer(cl->queue, cl->buffers[CL_BUFF_IMAGE],
-							CL_TRUE, 0, mlx->width * mlx->height * 4,
-							mlx->img_data, 0, NULL, NULL) != CL_SUCCESS)
+							CL_TRUE, 0, cam->img_wdt * cam->img_hgt * 4,
+							env->mlx.img_data, 0, NULL, NULL) != CL_SUCCESS)
 	{
 		ft_putstr_fd("Copy from GPU failed\n", 2);
 		return (-1); // To add

@@ -35,7 +35,6 @@ struct	s_opencl
 	cl_program			programs[K_MAX];
 	cl_kernel			kernels[K_MAX];
 	cl_mem				buffers[CL_BUFF_MAX];
-	t_camera			cam;
 };
 
 const char	*clGetErrorString(cl_int error);

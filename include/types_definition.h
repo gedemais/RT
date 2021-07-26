@@ -5,6 +5,7 @@
 typedef struct s_rt_env t_rt_env;
 typedef struct s_mlx t_mlx;
 typedef struct s_camera t_camera;
+typedef struct s_scene t_scene;
 
 // vectors.h
 typedef struct s_point2d t_point2d;

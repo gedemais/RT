@@ -4,10 +4,11 @@
 # include "types_definition.h"
 # include "vectors.h"
 # include "opencl.h"
-# include "libft.h"
-# include "mlx.h"
 # include "errors.h"
 # include "objects.h"
+
+# include "libft.h"
+# include "mlx.h"
 
 # include <stdio.h>
 # include <sys/stat.h>
@@ -20,6 +21,9 @@
 #ifdef LINUX
 # include "linux_keys.h" // To add
 #endif
+
+# define NB_SCENE_VARS 5
+# define MAX_WINDOW_DIM 4320
 
 struct			s_mlx
 {
@@ -38,16 +42,24 @@ struct			s_mlx
 	int			pad;
 };
 
+struct	s_scene
+{
+	t_camera	cam;
+	t_dynarray	objects;
+	t_dynarray	spots;
+};
+
 struct	s_rt_env
 {
 	t_mlx		mlx;
 	t_opencl	cl_env;
-	t_dynarray	objects;
+	t_scene		scene;
 };
 
 int		rt_setup(t_rt_env *env, int argc, char **argv);
 void	rt_error(int exit_code);
 void	rt_free(t_rt_env *env);
+int		exit_rt(t_rt_env *env);
 
 int		init_mlx(t_rt_env *env);
 int		key_press(int key, void *param);
@@ -56,9 +68,15 @@ int		mouse_press(int button, int x, int y, void *param);
 int		mouse_release(int button, int x, int y, void *param);
 int		mouse_position(int x, int y, void *param);
 int		render(void *param);
-int		exit_rt(t_rt_env *env);
-
 void	draw_pixel(t_mlx *mlx, uint32_t x, uint32_t y, int color);
 
+
+int		parse_scene(t_rt_env *env, char *arg);
+int		get_variables(t_rt_env *env, char **lines);
+
+int		parse_window_dim(t_rt_env *env, char *line);
+int		parse_cam_position(t_rt_env *env, char *line);
+int		parse_fov(t_rt_env *env, char *line);
+int		parse_brightness(t_rt_env *env, char *line);
 
 #endif

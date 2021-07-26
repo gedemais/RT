@@ -5,15 +5,14 @@ int		create_cl_buffers(t_rt_env *env)
 	// Buffers settings arrays
 	size_t			buffers_sizes[CL_BUFF_MAX] = {};
 	cl_mem_flags	buffers_flags[CL_BUFF_MAX] = {};
-	// Convenience pointers
-	t_opencl	*cl;
-	t_mlx		*mlx;
+	t_opencl		*cl;
+	t_camera		*cam;
 
 	cl = (t_opencl*)&env->cl_env;
-	mlx = (t_mlx*)&env->mlx;
+	cam = (t_camera*)&env->scene.cam;
 
 	// Image buffer
-	buffers_sizes[CL_BUFF_IMAGE] = mlx->width * mlx->height * 4;
+	buffers_sizes[CL_BUFF_IMAGE] = cam->img_wdt * cam->img_hgt * 4;
 	buffers_flags[CL_BUFF_IMAGE] = CL_MEM_WRITE_ONLY;
 
 	// Objects buffer

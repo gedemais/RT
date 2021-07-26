@@ -10,9 +10,9 @@ Another damned pixel matrice. Again.
 
 - [x] Architecture host OpenCL
 
-- [ ] Kernel raycaster (Raytracer core shader)
+- [x] Kernel raycaster (Raytracer core shader)
 
-- [ ] Luminosite, Lumiere ambiante
+- [x] Luminosite, Lumiere ambiante
 
 - [ ] Objets mathématiques obligatoires (plan, cone, cylindre, sphère)
 
