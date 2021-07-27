@@ -11,6 +11,13 @@ enum	e_object_type
 	TYPE_MAX
 };
 
+typedef struct	s_light
+{
+	float3	origin;
+	float3	color;
+	float	brightness;
+}				t_light;
+
 typedef struct	s_camera
 {
 	float3			o;
@@ -20,6 +27,7 @@ typedef struct	s_camera
 	float			fov;
 	float			brightness;
 	unsigned int	nb_objects;
+	unsigned int	nb_lights;
 }				t_camera;
 
 typedef struct	s_sphere
@@ -70,7 +78,33 @@ static float3 compute_ray_direction(t_camera cam, const unsigned short x, const 
 	return (normalize((float3){px, py, -1} - cam.o));
 }
 
-static float3	cast_ray(__global t_object *objects, t_camera cam, const float3 ray_dir)
+static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_light *lights, __global t_object *hit_obj, float3 hitpoint)
+{
+	float3	shadow_ray_dir;
+	float3	color;
+	bool	in_shadow;
+
+	color = 0;
+	for (unsigned int i = 0; i < cam.nb_lights; i++)
+	{
+		in_shadow = false;
+		shadow_ray_dir = lights[i].origin - hitpoint;
+		for (unsigned int j = 0; j < cam.nb_objects; j++)
+		{
+			if (objects[i].type == TYPE_SPHERE && ray_sphere_intersection(hitpoint, shadow_ray_dir, objects[i].sphere) > 0)
+			{
+				in_shadow = true;
+				break;
+			}
+		}
+		if (!in_shadow)
+			color += hit_obj->color * lights[i].brightness;
+			
+	}
+	return (color);
+}
+
+static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_camera cam, const float3 ray_dir)
 {
 	__global t_object	*closest = NULL;
 	float				min_dist = INFINITY;
@@ -89,14 +123,14 @@ static float3	cast_ray(__global t_object *objects, t_camera cam, const float3 ra
 		}
 	}
 	if (closest != NULL)
-		return (closest->color);
+		return (shadow_ray(cam, objects, lights, closest, ray_dir * (dist - 0.0001f)));
 	return ((float3)(0, 0, 0));
 }
 
 static int		color_to_int(const float3 color, float brightness)
 {
 	int				ret = 0;
-	unsigned char	*ptr = (char*)(&ret);
+	unsigned char	*ptr = (unsigned char*)(&ret);
 
 	if (brightness >= 1.0f)
 		brightness = 1.0f;
@@ -108,20 +142,20 @@ static int		color_to_int(const float3 color, float brightness)
 	return (ret);
 }
 
-__kernel void	ray_caster(__global int *img, __global t_object *objects, t_camera cam)
+__kernel void	ray_caster(__global int *img, __global t_object *objects, __global t_light *lights, t_camera cam)
 {
 	const unsigned short x = get_global_id(0);
 	const unsigned short y = get_global_id(1);
 
 	const float3 ray_dir = compute_ray_direction(cam, x, y);
 
-/*	if (x == 0 && y == 0)
+	/*if (x == 0 && y == 0)
 	{
-		printf("nb_objects = %d\n", cam.nb_objects);
-		printf("origin : %f %f %f | radius : %f | color : %X\n", objects[0].color.x, objects[0].color.y, objects[0].color.z, objects[0].sphere.radius, objects[0].color);
+		printf("nb_lights = %d\n", cam.nb_lights);
+		printf("origin : %f %f %f | color : %f %f %f | brightness : %f\n", lights[0].origin.x, lights[0].origin.y, lights[0].origin.z, lights[0].color.x, lights[0].color.y, lights[0].color.z, lights[0].brightness);
 	}*/
 
-	const float3 color = cast_ray(objects, cam, ray_dir);
+	const float3 color = cast_ray(objects, lights, cam, ray_dir);
 
 	img[y * cam.img_wdt + x] = color_to_int(color, cam.brightness);
 }
