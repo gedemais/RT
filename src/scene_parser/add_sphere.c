@@ -32,8 +32,6 @@ int			add_sphere(t_rt_env *env, char **split)
 	bool		found;
 	int			ret;
 
-	for (unsigned int k = 0; split[k]; k++)
-		printf("%s\n", split[k]);
 	new.type = TYPE_SPHERE;
 	for (unsigned int i = 0; i < NARG_SPHERE; i++)
 	{

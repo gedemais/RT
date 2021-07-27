@@ -8,7 +8,6 @@ int		parse_vector(char *vec, char *seps, cl_float3 *ret)
 	int		start;
 	int		end;
 
-	printf("vec : %s\n", vec);
 	for (start = 0; vec[start] && vec[start] != seps[0]; start++);
 	end = ft_strlen(vec) - 1;
 
@@ -29,7 +28,6 @@ int		parse_vector(char *vec, char *seps, cl_float3 *ret)
 	}
 
 	ret->x = atof(components[0]);
-	printf("x : %f\n", ret->x);
 	ret->y = atof(components[1]);
 	ret->z = atof(components[2]);
 
@@ -118,7 +116,7 @@ int			parse_brightness(t_rt_env *env, char *line)
 	if ((ret = check_set_cmd_syntax(&parts, line)))
 		return (ret);
 
-	try = ft_atof(parts[1]);
+	try = atof(parts[ft_tablen(parts) - 1]);
 
 	if (try < 0.0 || try > 1.0)
 		return (ERROR_INVALID_BRIGHTNESS);
