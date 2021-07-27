@@ -26,6 +26,28 @@ static void	data_spread(t_rt_env *env)
 	//cam->fov_rad = 1.0f / tan(cam->fov * 0.5f / 180.0f * 3.14159f);
 }
 
+int			get_commands(t_rt_env *env, char **lines)
+{
+	static int	(*cmd_fts[NB_COMMANDS])(t_rt_env*, char*) = {
+															cmd_addobj
+																};
+	const char	*commands[NB_COMMANDS] = {
+											"addobj"
+											};
+	int			ret;
+
+	for (unsigned int i = 0; lines[i]; i++)
+	{
+		for (unsigned int j = 0; j < NB_COMMANDS; j++)
+		{
+			if (ft_strncmp(lines[i], commands[j], ft_strlen(commands[j])) == 0)
+				if ((ret = cmd_fts[j](env, lines[i])))
+					return (ret);
+		}
+	}
+	return (0);
+}
+
 int			parse_scene(t_rt_env *env, char *arg)
 {
 	char	**lines;
@@ -39,7 +61,8 @@ int			parse_scene(t_rt_env *env, char *arg)
 	if (!(lines = ft_strsplit(scene, "\n")))
 		return (ERROR_MALLOC_FAILED);
 
-	if ((ret = get_variables(env, lines)))
+	if ((ret = get_variables(env, lines))
+		|| (ret = get_commands(env, lines)))
 	{
 		ft_free_ctab(lines);
 		return (ret);

@@ -6,7 +6,7 @@
 /*   By: gedemais <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 17:29:00 by gedemais          #+#    #+#             */
-/*   Updated: 2019/09/21 17:20:35 by gedemais         ###   ########.fr       */
+/*   Updated: 2021/07/27 06:06:02 by gedemais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ char	*ft_strdup_sep(char *src, char *charset)
 	char	*dest;
 	int		i;
 
-	i = 0;
-	while (!(is_sep(src[i], charset)))
+	i = src[0] == ',' ? 1 : 0;
+	while (!(is_sep(src[i], charset)) || src[i - 1] == ',')
 		i++;
 	if (!(dest = (char *)malloc(sizeof(*dest) * (i + 1))))
 		return (0);
 	i = 0;
-	while (!(is_sep(src[i], charset)))
+	while (!(is_sep(src[i], charset)) || src[i - 1] == ',')
 	{
 		dest[i] = src[i];
 		i++;
@@ -54,7 +54,7 @@ int		c_w(char *str, char *charset)
 	words = 1;
 	while (str[i])
 	{
-		if (is_sep(str[i], charset) && !(is_sep(str[i + 1], charset)))
+		if (is_sep(str[i], charset) && !(is_sep(str[i + 1], charset)) && str[i - 1] != ',')
 			words++;
 		i++;
 	}
@@ -81,7 +81,7 @@ char	**ft_strsplit(char *str, char *charset)
 			i++;
 		if (!(tab[j] = ft_strdup_sep(&str[i], charset)))
 			return (NULL);
-		while (!(is_sep(str[i], charset)))
+		while (!(is_sep(str[i], charset)) || (i > 0 && str[i - 1] == ',') )
 			i++;
 		j++;
 	}

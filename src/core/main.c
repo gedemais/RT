@@ -30,6 +30,7 @@ int			main(int argc, char **argv)
 	t_rt_env	env;
 	int			exit_code;
 
+	ft_memset(&env, 0, sizeof(t_rt_env));
 	exit_code = rt(&env, argc, argv);
 
 	if (exit_code != 0)

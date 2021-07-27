@@ -25,7 +25,19 @@ void	rt_error(int exit_code)
 		[ERROR_INVALID_WINDOW_DIMENSION] = "scene_parser : Invalid window dimension.",
 		[ERROR_INVALID_FOV] = "scene_parser : Invalid fov value (0 - 180.0).",
 		[ERROR_INVALID_BRIGHTNESS] = "scene_parser : Invalid brightness value (0.0 - 1.0)",
-		[ERROR_INVALID_SET_CMD_SYNTAX] = "Invalid syntax for set command.",
+		[ERROR_INVALID_SET_CMD_SYNTAX] = "scene_parser : Invalid syntax for set command.",
+		[ERROR_NO_TYPE_FOR_ADDOBJ_CMD] = "scene_parser : No type argument for addobj command.",
+		[ERROR_INVALID_TYPE_FOR_ADDOBJ_CMD] = "scene_parser : Invalid type argument for addobj command.",
+		[ERROR_COLOR_VALUE_OUT_OF_RANGE] = "scene_parser : Out of range color value (0.0 - 1.0 components).",
+		[ERROR_NEGATIVE_RADIUS_VALUE] = "scene_parser : Negative sphere radius value.",
+		[ERROR_ARG_NOT_FOUND] = "scene_parser : Missing argument for addobj command."
+		//[] = "",
+		//[] = "",
+		//[] = "",
+		//[] = "",
+		//[] = "",
+		//[] = "",
+
 
 		//[] = "",
 	};

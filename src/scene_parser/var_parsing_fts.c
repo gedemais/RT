@@ -2,20 +2,24 @@
 
 // Tools
 
-static int		parse_vector(char *vec, char *seps, float ret[3])
+int		parse_vector(char *vec, char *seps, cl_float3 *ret)
 {
 	char	**components;
+	int		start;
 	int		end;
 
+	printf("vec : %s\n", vec);
+	for (start = 0; vec[start] && vec[start] != seps[0]; start++);
 	end = ft_strlen(vec) - 1;
-	if (vec[0] != seps[0] || vec[end] != seps[1])
+
+	if (vec[start] != seps[0] || vec[end] != seps[1])
 		return (ERROR_INVALID_VECTOR_SYNTAX);
 
 	vec[0] = 0;
 	vec[end] = 0;
 	vec++;
 
-	if (!(components = ft_strsplit(vec, ",")))
+	if (!(components = ft_strsplit(&vec[start], ",")))
 		return (ERROR_MALLOC_FAILED);
 
 	if (ft_tablen(components) != 3)
@@ -24,9 +28,10 @@ static int		parse_vector(char *vec, char *seps, float ret[3])
 		return (ERROR_MISSING_COMPONENT_IN_VECTOR);
 	}
 
-	ret[0] = ft_atof(components[0]);
-	ret[1] = ft_atof(components[1]);
-	ret[2] = ft_atof(components[2]);
+	ret->x = atof(components[0]);
+	printf("x : %f\n", ret->x);
+	ret->y = atof(components[1]);
+	ret->z = atof(components[2]);
 
 	ft_free_ctab(components);
 	return (0);
@@ -75,18 +80,13 @@ int			parse_window_dim(t_rt_env *env, char *line)
 
 int			parse_cam_position(t_rt_env *env, char *line)
 {
-	float	vec[3];
 	char	**parts;
 	int		ret;
 
 	if ((ret = check_set_cmd_syntax(&parts, line)))
 		return (ret);
 
-	parse_vector(line, "[]", vec);
-
-	env->scene.cam.o.x = vec[0];
-	env->scene.cam.o.y = vec[1];
-	env->scene.cam.o.z = vec[2];
+	parse_vector(line, "[]", &env->scene.cam.o);
 
 	return (0);
 }

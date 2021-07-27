@@ -4,7 +4,27 @@
 # define MAX_OBJECTS 4096
 
 # include <OpenCL/cl.h>
+# include <stdbool.h>
 
+enum	e_data_type
+{
+	DT_VECTOR_P, // Parenthesis
+	DT_VECTOR_B, // Brackets
+	DT_FLOAT,
+	DT_INT,
+	DT_MAX
+};
+
+enum	e_nb_args
+{
+	NARG_SPHERE = 3
+};
+
+typedef struct	s_var
+{
+	char	name[63];
+	char	type;
+}				t_var;
 enum	e_object_type
 {
 	TYPE_POLYGON,
@@ -56,5 +76,8 @@ struct	s_object
 	cl_float3	color; // Color of the object
 	cl_int		type;
 };
+
+bool		is_vec_in(cl_float3 v, float min, float max);
+bool		is_float_in(float f, float min, float max);
 
 #endif
