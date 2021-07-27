@@ -2,6 +2,7 @@
 # define OBJECTS_H
 
 # define MAX_OBJECTS 4096
+# define MAX_LIGHTS 128
 
 # include <OpenCL/cl.h>
 # include <stdbool.h>
@@ -17,7 +18,8 @@ enum	e_data_type
 
 enum	e_nb_args
 {
-	NARG_SPHERE = 3
+	NARG_SPHERE = 3,
+	NARG_LIGHT = 3
 };
 
 typedef struct	s_var
@@ -75,6 +77,13 @@ struct	s_object
 	};
 	cl_float3	color; // Color of the object
 	cl_int		type;
+};
+
+struct	s_light
+{
+	cl_float3	origin;
+	cl_float3	color;
+	cl_float	brightness;
 };
 
 bool		is_vec_in(cl_float3 v, float min, float max);

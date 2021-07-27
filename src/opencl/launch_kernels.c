@@ -12,6 +12,19 @@ static void	print_objects(t_rt_env *env)
 	}
 }*/
 
+/*
+static void	print_lights(t_rt_env *env)
+{
+	t_light	*obj;
+
+	printf("%d\n", env->scene.lights.nb_cells);
+	for (unsigned int i = 0; i < (unsigned)env->scene.lights.nb_cells; i++)
+	{
+		obj = dyacc(&env->scene.lights, i);
+		printf("LIGHT : %f %f %f | color : %f %f %f | brightness : %f\n", obj->origin.x, obj->origin.y, obj->origin.z, obj->color.x, obj->color.y, obj->color.z, obj->brightness);
+	}
+}*/
+
 int		launch_ray_caster_kernel(t_rt_env *env)
 {
 	t_opencl	*cl;
@@ -22,6 +35,7 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 	cam = ((t_camera*)&env->scene.cam);
 
 	//print_objects(env);
+	//print_lights(env);
 	// Update data in buffers and params
 	cam->nb_objects = env->scene.objects.nb_cells;
 	errcode = clEnqueueWriteBuffer(cl->queue, cl->buffers[CL_BUFF_OBJECTS],

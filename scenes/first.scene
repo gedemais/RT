@@ -4,7 +4,7 @@ set window_width : 600
 set window_height : 600
 set cam_position : [0.0, 0.0, 0.0]
 set fov : 90.0
-set brightness : 0.5
+set brightness : 1.0
 
 #addmesh
 #addscene
@@ -15,3 +15,4 @@ addobj sphere color=(1.0, 0.0, 0.0) position=[-1.0, 0.0, -3.0] radius=1.0
 addobj sphere color=(0.0, 1.0, 0.0) position=[0.0, 0.0, -3.0] radius=1.0 
 addobj sphere color=(0.0, 0.0, 1.0) position=[1.0, 0.0, -3.0] radius=1.0 
 
+addlight position=[0.0, 3.0, -3.0] color=(1.0, 1.0, 1.0) brightness=1.0

@@ -17,13 +17,13 @@ bool		is_float_in(float f, float min, float max)
 
 //
 
-int			add_object_to_scene(t_rt_env *env, t_object obj)
+int			add_object_to_scene(t_rt_env *env, t_object *obj)
 {
 	if (env->scene.objects.byte_size == 0
 		&& init_dynarray(&env->scene.objects, sizeof(t_object), MAX_OBJECTS))
 		return (ERROR_MALLOC_FAILED);
 
-	if (push_dynarray(&env->scene.objects, &obj, false))
+	if (push_dynarray(&env->scene.objects, obj, false))
 		return (ERROR_MALLOC_FAILED);
 
 	return (0);

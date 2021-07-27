@@ -29,10 +29,12 @@ static void	data_spread(t_rt_env *env)
 int			get_commands(t_rt_env *env, char **lines)
 {
 	static int	(*cmd_fts[NB_COMMANDS])(t_rt_env*, char*) = {
-															cmd_addobj
+															cmd_addobj,
+															cmd_addlight
 																};
 	const char	*commands[NB_COMMANDS] = {
-											"addobj"
+											"addobj",
+											"addlight"
 											};
 	int			ret;
 

@@ -23,7 +23,7 @@
 #endif
 
 # define NB_SCENE_VARS 5
-# define NB_COMMANDS 1
+# define NB_COMMANDS 2
 # define MAX_WINDOW_DIM 4320
 
 struct			s_mlx
@@ -47,7 +47,7 @@ struct	s_scene
 {
 	t_camera	cam;
 	t_dynarray	objects;
-	t_dynarray	spots;
+	t_dynarray	lights;
 };
 
 struct	s_rt_env
@@ -75,7 +75,9 @@ void	draw_pixel(t_mlx *mlx, uint32_t x, uint32_t y, int color);
 int		parse_scene(t_rt_env *env, char *arg);
 
 int		cmd_addobj(t_rt_env *env, char *line);
-int		add_object_to_scene(t_rt_env *env, t_object obj);
+int		cmd_addlight(t_rt_env *env, char *line);
+int		add_object_to_scene(t_rt_env *env, t_object *obj);
+
 int		add_sphere(t_rt_env *env, char **split);
 
 int		get_variables(t_rt_env *env, char **lines);

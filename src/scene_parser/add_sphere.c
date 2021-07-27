@@ -49,6 +49,6 @@ int			add_sphere(t_rt_env *env, char **split)
 			return (ERROR_ARG_NOT_FOUND);
 	}
 	
-	return (add_object_to_scene(env, new));
+	return (add_object_to_scene(env, &new));
 }
 
