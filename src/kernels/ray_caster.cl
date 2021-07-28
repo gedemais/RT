@@ -1,5 +1,6 @@
 
 #define NULL (void*)0
+#define EPSILON 0.0000001f
 
 enum	e_object_type
 {
@@ -33,9 +34,9 @@ typedef struct	s_camera
 
 typedef struct	s_polygon
 {
+	float3 v0;
 	float3 v1;
 	float3 v2;
-	float3 v3;
 }				t_polygon;
 
 typedef struct	s_sphere
@@ -57,21 +58,55 @@ typedef struct	s_object
 
 //---------------------------------------------------------------------
 
-static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_object obj)
+static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_sphere sphere)
 {
 	float	a, b, c, discriminant;
 
-	const float3 oc = ray_o - obj.sphere.origin;
+	const float3 oc = ray_o - sphere.origin;
 
 	a = dot(ray_dir, ray_dir);
 	b = 2.0 * dot(oc, ray_dir);
-	c = dot(oc, oc) - (obj.sphere.radius * obj.sphere.radius);
+	c = dot(oc, oc) - (sphere.radius * sphere.radius);
 
 	discriminant = b * b - 4.0 * a * c;
 
 	if (discriminant < 0)
 		return (-1.0);
 	return (-b - sqrt(discriminant)) / (2.0 * a);
+}
+
+static float	ray_polygon_intersection(float3 ray_o, float3 ray_dir, t_polygon poly)
+{
+    float3 vertex0 = poly.v0;
+    float3 vertex1 = poly.v1;  
+    float3 vertex2 = poly.v2;
+    float3 edge1, edge2, h, s, q;
+    float a,f,u,v;
+
+    edge1 = vertex1 - vertex0;
+    edge2 = vertex2 - vertex0;
+
+    h = cross(ray_dir, edge2);
+    a = dot(edge1, h);
+    if (a > -EPSILON && a < EPSILON)
+        return (-1.0f);    // Le rayon est parallèle au triangle.
+
+    f = 1.0 / a;
+    s = ray_o - vertex0;
+    u = f * dot(s, h);
+    if (u < 0.0 || u > 1.0)
+        return (-1.0f);
+    q = cross(s, edge1);
+    v = f * dot(ray_dir, q);
+    if (v < 0.0 || u + v > 1.0)
+        return (-1.0f);
+
+    // On calcule t pour savoir ou le point d'intersection se situe sur la ligne.
+    float t = f * dot(edge2, q);
+    if (t > EPSILON) // Intersection avec le rayon
+        return (t);
+    else // On a bien une intersection de droite, mais pas de rayon.
+        return (-1.0f);
 }
 
 //---------------------------------------------------------------------
@@ -115,7 +150,8 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		shadow_ray_dir = normalize(lights[i].origin - p);
 		for (unsigned int j = 0; j < cam.nb_objects; j++)
 		{
-			if (objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j]) > 0)
+			if ((objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j].sphere) > 0)
+				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0))
 			{
 				in_shadow = true;
 				break;
@@ -139,8 +175,10 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	for (unsigned int i = 0; i < cam.nb_objects; i++)
 	{
 		if (objects[i].type == TYPE_SPHERE)
-			dist = ray_sphere_intersection(cam.o, ray_dir, objects[i]);
-		if (dist > 0.0f && dist < min_dist)
+			dist = ray_sphere_intersection(cam.o, ray_dir, objects[i].sphere);
+		if (objects[i].type == TYPE_POLYGON)
+			dist = ray_polygon_intersection(cam.o, ray_dir, objects[i].poly);
+		if (dist > 0 && dist < min_dist)
 		{
 			closest = &objects[i];
 			min_dist = dist;
@@ -148,7 +186,7 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	}
 	if (closest != NULL) // Si pas de spots, utiliser brightness uniquement
 	{
-		p = ray_dir * (min_dist - 0.001f);
+		p = ray_dir * (min_dist - EPSILON);
 		n = p - closest->sphere.origin;
 		if (dot(n, ray_dir) > 0)
 			n *= -1;
