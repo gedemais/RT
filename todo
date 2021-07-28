@@ -1,0 +1,3 @@
+- Ajouter une variable ambient_color.
+
+- Mixer les couleurs des differents spots avec celle de la lumiere ambiante.
