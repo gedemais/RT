@@ -31,18 +31,26 @@ typedef struct	s_camera
 	unsigned int	nb_lights;
 }				t_camera;
 
+typedef struct	s_polygon
+{
+	float3 v1;
+	float3 v2;
+	float3 v3;
+}				t_polygon;
+
 typedef struct	s_sphere
 {
 	float	radius; // Radius of the sphere
+	float3	origin; // Origin point of the object
 }				t_sphere;
 
 typedef struct	s_object
 {
 	union
 	{
+		t_polygon	poly;
 		t_sphere	sphere;
 	};
-	float3	origin; // Origin point of the object
 	float3	color; // Color of the object
 	int		type;
 }				t_object;
@@ -53,7 +61,7 @@ static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_object obj)
 {
 	float	a, b, c, discriminant;
 
-	const float3 oc = ray_o - obj.origin;
+	const float3 oc = ray_o - obj.sphere.origin;
 
 	a = dot(ray_dir, ray_dir);
 	b = 2.0 * dot(oc, ray_dir);
@@ -141,7 +149,7 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	if (closest != NULL) // Si pas de spots, utiliser brightness uniquement
 	{
 		p = ray_dir * (min_dist - 0.001f);
-		n = p - closest->origin;
+		n = p - closest->sphere.origin;
 		if (dot(n, ray_dir) > 0)
 			n *= -1;
 

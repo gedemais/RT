@@ -32,7 +32,8 @@ int			add_object_to_scene(t_rt_env *env, t_object *obj)
 int			cmd_addobj(t_rt_env *env, char *line)
 {
 	static int	(*types_add_fts[TYPE_MAX])(t_rt_env*, char**) = {
-															add_sphere
+															add_sphere,
+															add_polygon
 																};
 	const char	*objects_types[TYPE_MAX] = {
 											"sphere",

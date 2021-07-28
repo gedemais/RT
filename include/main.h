@@ -79,6 +79,7 @@ int		cmd_addlight(t_rt_env *env, char *line);
 int		add_object_to_scene(t_rt_env *env, t_object *obj);
 
 int		add_sphere(t_rt_env *env, char **split);
+int		add_polygon(t_rt_env *env, char **split);
 
 int		get_variables(t_rt_env *env, char **lines);
 int		parse_window_dim(t_rt_env *env, char *line);

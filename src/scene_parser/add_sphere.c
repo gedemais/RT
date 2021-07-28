@@ -11,7 +11,7 @@ static int	get_arg_value(t_var var, t_object *obj, char *split)
 			return (ERROR_COLOR_VALUE_OUT_OF_RANGE);
 	}
 	else if (var.type == DT_VECTOR_B)
-		ret = parse_vector(split, "[]", &obj->origin);
+		ret = parse_vector(split, "[]", &obj->sphere.origin);
 	else // DT_FLOAT
 	{
 		obj->sphere.radius = ft_atof(&split[ft_strlen(var.name)]);
