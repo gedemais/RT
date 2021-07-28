@@ -131,13 +131,11 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	for (unsigned int i = 0; i < cam.nb_objects; i++)
 	{
 		if (objects[i].type == TYPE_SPHERE)
-		{
 			dist = ray_sphere_intersection(cam.o, ray_dir, objects[i]);
-			if (dist > 0.0f && dist < min_dist)
-			{
-				closest = &objects[i];
-				min_dist = dist;
-			}
+		if (dist > 0.0f && dist < min_dist)
+		{
+			closest = &objects[i];
+			min_dist = dist;
 		}
 	}
 	if (closest != NULL) // Si pas de spots, utiliser brightness uniquement

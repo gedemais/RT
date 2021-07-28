@@ -14,11 +14,11 @@ Another damned pixel matrice. Again.
 
 - [x] Luminosite, Lumiere ambiante
 
+- [x] Multi-Spots, Ombres
+
 - [ ] Objets mathématiques obligatoires (plan, cone, cylindre, sphère)
 
-- [ ] Multi-Spots, Ombres
-
-- [ ] Brillance
+- [ ] Camera moves and rotations
 
 - [ ] Fichier scène (résolution, camera, objets, fichiers ressources, .obj, .mtl...)
 
@@ -50,6 +50,8 @@ de config. (resolution, position et inclinaison de la camera, path vers le fichi
 - [ ] Video : Rendu d'une video a partir d'une scene et d'un fichier d'animation.
 (resolution, fps, position et inclinaison de la camera, mouvements / rotation de meshs,
 mouvements / rotation de camera, path vers le fichier video, path vers le fichier scene)
+
+- [ ] Gamma correction
 
 - [ ] Anti-aliasings (Plusieurs eventuellement)
 
@@ -96,3 +98,5 @@ Anti-aliasing algorithm choice :
 https://www.malekal.com/quest-ce-que-anti-aliasing-et-anticrenelage-fxaa-smaa-msaa-ssaa-txaa/#FXAA_Fast_Approximate_Anti-Aliasing
 
 https://github.com/rotrojan/miniRT
+
+
