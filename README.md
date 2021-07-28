@@ -98,5 +98,3 @@ Anti-aliasing algorithm choice :
 https://www.malekal.com/quest-ce-que-anti-aliasing-et-anticrenelage-fxaa-smaa-msaa-ssaa-txaa/#FXAA_Fast_Approximate_Anti-Aliasing
 
 https://github.com/rotrojan/miniRT
-
-
