@@ -91,7 +91,7 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		shadow_ray_dir = lights[i].origin - hitpoint;
 		for (unsigned int j = 0; j < cam.nb_objects; j++)
 		{
-			if (objects[i].type == TYPE_SPHERE && ray_sphere_intersection(hitpoint, shadow_ray_dir, objects[i].sphere) > 0)
+			if (objects[j].type == TYPE_SPHERE && ray_sphere_intersection(hitpoint, shadow_ray_dir, objects[j].sphere) > 0)
 			{
 				in_shadow = true;
 				break;
