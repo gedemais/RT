@@ -1,6 +1,6 @@
 ### RT Scene File ###
 
-set window_width : 600
+set window_width : 800
 set window_height : 600
 set cam_position : [0.0, 0.0, 0.0]
 set fov : 90.0
@@ -11,8 +11,10 @@ set brightness : 1.0
 #addlight
 
 # addobj adds a mathematical object to the scene 
-#addobj sphere color=(1.0, 0.0, 0.0) position=[-1.0, 0.0, -3.0] radius=1.0 
+addobj sphere color=(1.0, 1.0, 1.0) position=[0.0, -1001.0, 0] radius=1000.0 
+addobj sphere color=(1.0, 0.0, 0.0) position=[-1.0, 0.0, -3.0] radius=1.0 
 addobj sphere color=(0.0, 1.0, 0.0) position=[0.0, 0.0, -3.0] radius=1.0 
-#addobj sphere color=(0.0, 0.0, 1.0) position=[1.0, 0.0, -3.0] radius=1.0 
+addobj sphere color=(0.0, 0.0, 1.0) position=[1.0, 0.0, -3.0] radius=1.0 
 
-addlight position=[0.0, 3.0, -3.0] color=(1.0, 1.0, 1.0) brightness=1.0
+
+addlight position=[0.0, 0.0, 0.0] color=(1.0, 1.0, 1.0) brightness=1.0
