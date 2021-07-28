@@ -187,7 +187,10 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	if (closest != NULL) // Si pas de spots, utiliser brightness uniquement
 	{
 		p = ray_dir * (min_dist - EPSILON);
-		n = p - closest->sphere.origin;
+		if (closest->type == TYPE_SPHERE)
+			n = p - closest->sphere.origin;
+		if (closest->type == TYPE_POLYGON)
+			n = cross(normalize(closest->poly.v1 - closest->poly.v0), normalize(closest->poly.v2 - closest->poly.v0));
 		if (dot(n, ray_dir) > 0)
 			n *= -1;
 
