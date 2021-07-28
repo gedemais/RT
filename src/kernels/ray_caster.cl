@@ -21,6 +21,7 @@ typedef struct	s_light
 typedef struct	s_camera
 {
 	float3			o;
+	float3			ambiant_color;
 	short			img_wdt;
 	short			img_hgt;
 	float			aspect_ratio;
@@ -32,7 +33,6 @@ typedef struct	s_camera
 
 typedef struct	s_sphere
 {
-	float3	origin; // Center point of the sphere
 	float	radius; // Radius of the sphere
 }				t_sphere;
 
@@ -42,21 +42,22 @@ typedef struct	s_object
 	{
 		t_sphere	sphere;
 	};
+	float3	origin; // Origin point of the object
 	float3	color; // Color of the object
 	int		type;
 }				t_object;
 
 //---------------------------------------------------------------------
 
-static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_sphere sphere)
+static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_object obj)
 {
 	float	a, b, c, discriminant;
 
-	const float3 oc = ray_o - sphere.origin;
+	const float3 oc = ray_o - obj.origin;
 
 	a = dot(ray_dir, ray_dir);
 	b = 2.0 * dot(oc, ray_dir);
-	c = dot(oc, oc) - (sphere.radius * sphere.radius);
+	c = dot(oc, oc) - (obj.sphere.radius * obj.sphere.radius);
 
 	discriminant = b * b - 4.0 * a * c;
 
@@ -67,7 +68,22 @@ static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_sphere sphe
 
 //---------------------------------------------------------------------
 
-static float3 compute_ray_direction(t_camera cam, const unsigned short x, const unsigned short y)
+static float3	mix_colors(float3 a, float3 b)
+{
+	return (normalize(a * b));
+}
+
+static float3	color_pixel(__global t_light *light, float3 color, float3 obj_color, float3 n, float3 shadow_ray_dir)
+{
+	float3	c;
+
+	c = obj_color * (light->brightness * fmax(0.0f, fmin(1.0f, dot(n, shadow_ray_dir))));
+	c *= light->color;
+
+	return (color + c);
+}
+
+static float3	compute_ray_direction(t_camera cam, const unsigned short x, const unsigned short y)
 {
 	float	px = 2.0 * (((float)x + 0.5) / (float)cam.img_wdt) - 1.0;
 	float	py = 1.0 - 2.0 * (((float)y + 0.5) / (float)cam.img_hgt);
@@ -78,7 +94,7 @@ static float3 compute_ray_direction(t_camera cam, const unsigned short x, const 
 	return (normalize((float3){px, py, -1} - cam.o));
 }
 
-static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_light *lights, __global t_object *hit_obj, float3 hitpoint)
+static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_light *lights, __global t_object *hit_obj, const float3 ray_dir, float3 p, float3 n)
 {
 	float3	shadow_ray_dir;
 	float3	color;
@@ -88,25 +104,27 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 	for (unsigned int i = 0; i < cam.nb_lights; i++)
 	{
 		in_shadow = false;
-		shadow_ray_dir = lights[i].origin - hitpoint;
+		shadow_ray_dir = normalize(lights[i].origin - p);
 		for (unsigned int j = 0; j < cam.nb_objects; j++)
 		{
-			if (objects[j].type == TYPE_SPHERE && ray_sphere_intersection(hitpoint, shadow_ray_dir, objects[j].sphere) > 0)
+			if (objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j]) > 0)
 			{
 				in_shadow = true;
 				break;
 			}
 		}
 		if (!in_shadow)
-			color += hit_obj->color * lights[i].brightness * (dot(shadow_ray_dir, hitpoint - hit_obj->sphere.origin));
-			
+			color = color_pixel(&lights[i], color, hit_obj->color, n, shadow_ray_dir);
 	}
+	color = (color + (cam.brightness / 3.141f * hit_obj->color)) * cam.ambiant_color;
 	return (color);
 }
 
 static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_camera cam, const float3 ray_dir)
 {
 	__global t_object	*closest = NULL;
+	float3				p;
+	float3				n;
 	float				min_dist = INFINITY;
 	float				dist;
 
@@ -114,7 +132,7 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	{
 		if (objects[i].type == TYPE_SPHERE)
 		{
-			dist = ray_sphere_intersection(cam.o, ray_dir, objects[i].sphere);
+			dist = ray_sphere_intersection(cam.o, ray_dir, objects[i]);
 			if (dist > 0.0f && dist < min_dist)
 			{
 				closest = &objects[i];
@@ -123,7 +141,14 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 		}
 	}
 	if (closest != NULL) // Si pas de spots, utiliser brightness uniquement
-		return (shadow_ray(cam, objects, lights, closest, ray_dir * (min_dist - 0.0001f)));
+	{
+		p = ray_dir * (min_dist - 0.001f);
+		n = p - closest->origin;
+		if (dot(n, ray_dir) > 0)
+			n *= -1;
+
+		return (shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
+	}
 	return ((float3)(0, 0, 0));
 }
 

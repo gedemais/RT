@@ -60,7 +60,6 @@ struct	s_cone
 
 struct	s_sphere
 {
-	cl_float3	origin; // Center point of the sphere
 	cl_float	radius; // Radius of the sphere
 };
 
@@ -75,6 +74,7 @@ struct	s_object
 		// t_cone	cone;
 		// t_;
 	};
+	cl_float3	origin; // Center point of the sphere
 	cl_float3	color; // Color of the object
 	cl_int		type;
 };

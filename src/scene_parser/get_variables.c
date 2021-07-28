@@ -26,7 +26,8 @@ int		get_variables(t_rt_env *env, char **lines)
 												parse_window_dim,
 												parse_cam_position,
 												parse_fov,
-												parse_brightness
+												parse_brightness,
+												parse_ambiant_color
 											};
 
 	const char	*var_names[NB_SCENE_VARS] = {
@@ -34,7 +35,8 @@ int		get_variables(t_rt_env *env, char **lines)
 												"window_height",
 												"cam_position",
 												"fov",
-												"brightness"
+												"brightness",
+												"ambiant_color",
 											};
 	// Tableau psf pour chaque var
 

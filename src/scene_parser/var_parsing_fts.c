@@ -84,7 +84,8 @@ int			parse_cam_position(t_rt_env *env, char *line)
 	if ((ret = check_set_cmd_syntax(&parts, line)))
 		return (ret);
 
-	parse_vector(line, "[]", &env->scene.cam.o);
+	if ((ret = parse_vector(line, "[]", &env->scene.cam.o)))
+		return (ret);
 
 	return (0);
 }
@@ -122,5 +123,19 @@ int			parse_brightness(t_rt_env *env, char *line)
 		return (ERROR_INVALID_BRIGHTNESS);
 
 	env->scene.cam.brightness = try;
+	return (0);
+}
+
+int			parse_ambiant_color(t_rt_env *env, char *line)
+{
+	char	**parts;
+	int		ret;
+
+	if ((ret = check_set_cmd_syntax(&parts, line)))
+		return (ret);
+
+	if ((ret = parse_vector(line, "()", &env->scene.cam.ambiant_color)))
+		return (ret);
+	
 	return (0);
 }

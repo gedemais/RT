@@ -40,7 +40,7 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 	cam->nb_objects = env->scene.objects.nb_cells;
 	cam->nb_lights = env->scene.lights.nb_cells;
 
-	((cl_float3*)(env->scene.lights.c))->y += 0.01f;
+	//((cl_float3*)(env->scene.lights.c))->x += 0.01f;
 
 	// PROTEGER LES CLENQUEUEWRITEBUFFER
 	errcode = clEnqueueWriteBuffer(cl->queue, cl->buffers[CL_BUFF_OBJECTS],

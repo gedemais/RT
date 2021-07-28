@@ -22,7 +22,7 @@
 # include "linux_keys.h" // To add
 #endif
 
-# define NB_SCENE_VARS 5
+# define NB_SCENE_VARS 6
 # define NB_COMMANDS 2
 # define MAX_WINDOW_DIM 4320
 
@@ -85,6 +85,7 @@ int		parse_window_dim(t_rt_env *env, char *line);
 int		parse_cam_position(t_rt_env *env, char *line);
 int		parse_fov(t_rt_env *env, char *line);
 int		parse_brightness(t_rt_env *env, char *line);
+int		parse_ambiant_color(t_rt_env *env, char *line);
 
 int		parse_vector(char *vec, char *seps, cl_float3 *ret);
 

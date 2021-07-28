@@ -20,6 +20,7 @@ enum	e_buffers
 struct	s_camera
 {
 	cl_float3		o;
+	cl_float3		ambiant_color;
 	cl_short		img_wdt;
 	cl_short		img_hgt;
 	cl_float		aspect_ratio;
