@@ -1,6 +1,6 @@
 
 #define NULL (void*)0
-#define EPSILON 0.0000001f
+#define EPSILON 0.000001f
 
 enum	e_object_type
 {
@@ -77,36 +77,22 @@ static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_sphere sphe
 
 static float	ray_polygon_intersection(float3 ray_o, float3 ray_dir, t_polygon poly)
 {
-    float3 vertex0 = poly.v0;
-    float3 vertex1 = poly.v1;  
-    float3 vertex2 = poly.v2;
-    float3 edge1, edge2, h, s, q;
-    float a,f,u,v;
+    const float3 E1 = poly.v1 - poly.v0;
+    const float3 E2 = poly.v2 - poly.v0;
+    const float3 T = ray_o - poly.v0;
+    const float3 D = ray_dir;
+    const float3 P = cross(D, E2);
+    const float3 Q = cross(T, E1);
 
-    edge1 = vertex1 - vertex0;
-    edge2 = vertex2 - vertex0;
+    const float	f = 1.0f / dot(P, E1);
+    const float t = f * dot(Q, E2);
+    const float u = f * dot(P, T);
+    const float v = f * dot(Q, D);
 
-    h = cross(ray_dir, edge2);
-    a = dot(edge1, h);
-    if (a > -EPSILON && a < EPSILON)
-        return (-1.0f);    // Le rayon est parallèle au triangle.
-
-    f = 1.0 / a;
-    s = ray_o - vertex0;
-    u = f * dot(s, h);
-    if (u < 0.0 || u > 1.0)
-        return (-1.0f);
-    q = cross(s, edge1);
-    v = f * dot(ray_dir, q);
-    if (v < 0.0 || u + v > 1.0)
-        return (-1.0f);
-
-    // On calcule t pour savoir ou le point d'intersection se situe sur la ligne.
-    float t = f * dot(edge2, q);
-    if (t > EPSILON) // Intersection avec le rayon
-        return (t);
-    else // On a bien une intersection de droite, mais pas de rayon.
-        return (-1.0f);
+    if (u > -EPSILON && v > -EPSILON && u + v < 1.0f + EPSILON)
+		return (t);
+    else
+		return (-1.0f);
 }
 
 //---------------------------------------------------------------------
@@ -184,19 +170,20 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 			min_dist = dist;
 		}
 	}
-	if (closest != NULL) // Si pas de spots, utiliser brightness uniquement
-	{
-		p = ray_dir * (min_dist - EPSILON);
-		if (closest->type == TYPE_SPHERE)
-			n = p - closest->sphere.origin;
-		if (closest->type == TYPE_POLYGON)
-			n = cross(normalize(closest->poly.v1 - closest->poly.v0), normalize(closest->poly.v2 - closest->poly.v0));
-		if (dot(n, ray_dir) > 0)
-			n *= -1;
 
-		return (shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
-	}
-	return ((float3)(0, 0, 0));
+	if (closest == NULL)
+		return ((float3)(0.0, 0.0, 0.0));
+
+	p = ray_dir * (min_dist - EPSILON);
+	if (closest->type == TYPE_SPHERE)
+		n = p - closest->sphere.origin;
+	if (closest->type == TYPE_POLYGON)
+		n = cross(closest->poly.v1 - closest->poly.v0, closest->poly.v2 - closest->poly.v0);
+
+	if (dot(n, ray_dir) > 0)
+		n *= -1;
+
+	return (shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
 }
 
 static int		color_to_int(const float3 color, float brightness)
