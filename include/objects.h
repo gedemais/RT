@@ -20,6 +20,7 @@ enum	e_nb_args
 {
 	NARG_SPHERE = 3,
 	NARG_POLYGON = 4,
+	NARG_CONE = 5,
 	NARG_LIGHT = 3
 };
 
@@ -48,11 +49,16 @@ struct	s_cylinder
 {
 	
 };
+*/
 
 struct	s_cone
 {
-	
-};*/
+	cl_float3	color;
+	cl_float3	tip;
+	cl_float3	axis;
+	cl_float	cosa;
+	cl_float	height;
+};
 
 struct	s_polygon
 {
@@ -73,9 +79,9 @@ struct	s_object
 	{
 		t_polygon	poly;
 		t_sphere	sphere;
+		t_cone		cone;
 		// t_plane	plane;
 		// t_cylinder cylinder;
-		// t_cone	cone;
 		// t_;
 	};
 	cl_float3	color; // Color of the object

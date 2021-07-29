@@ -30,9 +30,8 @@ void	rt_error(int exit_code)
 		[ERROR_INVALID_TYPE_FOR_ADDOBJ_CMD] = "scene_parser : Invalid type argument for addobj command.",
 		[ERROR_COLOR_VALUE_OUT_OF_RANGE] = "scene_parser : Out of range color value (0.0 - 1.0 components).",
 		[ERROR_NEGATIVE_RADIUS_VALUE] = "scene_parser : Negative sphere radius value.",
+		[ERROR_INVALID_CONE_HEIGHT_VALUE] = "scene_parser : Invalid cone height value (<= 0)",
 		[ERROR_ARG_NOT_FOUND] = "scene_parser : Missing argument for addobj command."
-		//[] = "",
-		//[] = "",
 		//[] = "",
 		//[] = "",
 		//[] = "",

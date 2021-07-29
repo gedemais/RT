@@ -34,6 +34,9 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 	cl = ((t_opencl*)&env->cl_env);
 	cam = ((t_camera*)&env->scene.cam);
 
+	t_light	*light;
+	light = dyacc(&env->scene.lights, 0);
+	light->origin.x += 0.01f;
 	//print_objects(env);
 	//print_lights(env);
 	// Update data in buffers and params

@@ -23,5 +23,6 @@ typedef struct s_light t_light;
 
 typedef struct s_sphere	t_sphere;
 typedef struct s_polygon t_polygon;
+typedef struct s_cone t_cone;
 
 #endif

@@ -32,6 +32,15 @@ typedef struct	s_camera
 	unsigned int	nb_lights;
 }				t_camera;
 
+typedef struct	s_cone
+{
+	float3	color;
+	float3	tip;
+	float3	axis;
+	float	cosa;
+	float	height;
+}				t_cone;
+
 typedef struct	s_polygon
 {
 	float3 v0;
@@ -51,6 +60,7 @@ typedef struct	s_object
 	{
 		t_polygon	poly;
 		t_sphere	sphere;
+		t_cone		cone;
 	};
 	float3	color; // Color of the object
 	int		type;
