@@ -1,5 +1,5 @@
 #include "main.h"
-
+/*
 static void	move(t_rt_env *env, t_mlx *mlx)
 {
 	t_camera	*cam;
@@ -19,7 +19,7 @@ static void	move(t_rt_env *env, t_mlx *mlx)
 static void	handle_keys(t_rt_env *env, t_mlx *mlx)
 {
 	move(env, mlx);
-}
+}*/
 
 int			render(void *param)
 {
@@ -29,7 +29,7 @@ int			render(void *param)
 	env = (t_rt_env*)param;
 	mlx = &env->mlx;
 
-	handle_keys(env, mlx);
+	//handle_keys(env, mlx);
 	launch_ray_caster_kernel(env);
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, mlx->img_ptr, 0, 0);
 	return (0);
