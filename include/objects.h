@@ -56,8 +56,8 @@ struct	s_cone
 	cl_float3	color;
 	cl_float3	tip;
 	cl_float3	axis;
-	cl_float	cosa;
 	cl_float	height;
+	cl_float	radius;
 };
 
 struct	s_polygon

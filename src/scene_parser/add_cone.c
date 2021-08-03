@@ -23,8 +23,8 @@ static int	get_arg_value(t_var var, t_object *obj, char *split)
 	else // DT_FLOAT
 	{
 		t = ft_atof(&split[ft_strlen(var.name)]);
-		if (ft_strcmp(var.name, "cosa=") == 0)
-			obj->cone.cosa = t;
+		if (ft_strcmp(var.name, "radius=") == 0)
+			obj->cone.radius = t;
 		else
 		{
 			if (!is_float_in(t, 0.0f, INFINITY))
@@ -39,7 +39,7 @@ int			add_cone(t_rt_env *env, char **split)
 {
 	const t_var	vars[NARG_CONE] ={
 									{"color=", DT_VECTOR_P},
-									{"cosa=", DT_FLOAT},
+									{"radius=", DT_FLOAT},
 									{"height=", DT_FLOAT},
 									{"tip=", DT_VECTOR_B},
 									{"axis=", DT_VECTOR_B}
@@ -64,6 +64,5 @@ int			add_cone(t_rt_env *env, char **split)
 		if (!found)
 			return (ERROR_ARG_NOT_FOUND);
 	}
-	
 	return (add_object_to_scene(env, &new));
 }

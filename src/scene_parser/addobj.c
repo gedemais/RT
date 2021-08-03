@@ -33,8 +33,8 @@ int			cmd_addobj(t_rt_env *env, char *line)
 {
 	static int	(*types_add_fts[TYPE_MAX])(t_rt_env*, char**) = {
 															add_sphere,
-															add_polygon
-															//add_cone
+															add_polygon,
+															add_cone
 																};
 	const char	*objects_types[TYPE_MAX] = {
 											"sphere",
