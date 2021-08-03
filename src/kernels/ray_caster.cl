@@ -179,8 +179,8 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		for (unsigned int j = 0; j < cam.nb_objects; j++)
 		{
 			if ((objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j].sphere) > 0)
-				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0)
-				|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0))
+				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0))
+			//	|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0))
 			{
 				in_shadow = true;
 				break;
@@ -228,7 +228,7 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	else if (closest->type == TYPE_CONE)
 	{
 		const float	r = sqrt((p.x - closest->cone.axis.x) * (p.x - closest->cone.axis.x) + (p.z - closest->cone.axis.z) * (p.z - closest->cone.axis.z));
-		n = (float3)(p.x - closest->cone.axis.x, r * (closest->cone.radius / closest->cone.height), p.z - closest->cone.axis.z);
+		n = normalize((float3)(p.x - closest->cone.axis.x, r * (closest->cone.radius / closest->cone.height), p.z - closest->cone.axis.z));
 	}
 
 	if (dot(n, ray_dir) > 0.0f)
