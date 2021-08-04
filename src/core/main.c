@@ -21,6 +21,7 @@ static int	rt(t_rt_env	*env, int argc, char **argv)
 
 	if ((ret = rt_setup(env, argc, argv)) != 0)
 		return (ret);
+
 	rt_loop(env);
 	return (0);
 }

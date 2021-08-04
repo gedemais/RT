@@ -26,6 +26,8 @@
 # define NB_COMMANDS 2
 # define MAX_WINDOW_DIM 4320
 
+# define CAM_SPEED 0.1f // replace with a variable in scene file
+
 struct			s_mlx
 {
 	bool		keys[NB_KEYS];
@@ -80,6 +82,7 @@ int		add_object_to_scene(t_rt_env *env, t_object *obj);
 
 int		add_sphere(t_rt_env *env, char **split);
 int		add_polygon(t_rt_env *env, char **split);
+int		add_cone(t_rt_env *env, char **split);
 
 int		get_variables(t_rt_env *env, char **lines);
 int		parse_window_dim(t_rt_env *env, char *line);

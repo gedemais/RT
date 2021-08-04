@@ -1,5 +1,5 @@
 #include "main.h"
-/*
+
 static void	print_objects(t_rt_env *env)
 {
 	t_object	*obj;
@@ -8,9 +8,47 @@ static void	print_objects(t_rt_env *env)
 	for (unsigned int i = 0; i < (unsigned)env->scene.objects.nb_cells; i++)
 	{
 		obj = dyacc(&env->scene.objects, i);
-		printf("SPHERE : %f %f %f | color : %f %f %f | radius : %f\n", obj->sphere.origin.x, obj->sphere.origin.y, obj->sphere.origin.z, obj->color.x, obj->color.y, obj->color.z, obj->sphere.radius);
+		if (obj->type == TYPE_SPHERE)
+		{
+			printf("SPHERE : %f %f %f |  radius : %f | color : %f %f %f\n", obj->sphere.origin.x,
+																			obj->sphere.origin.y,
+																			obj->sphere.origin.z,
+																			obj->sphere.radius,
+																			obj->color.x, 
+																			obj->color.y,
+																			obj->color.z);
+		}
+		else if (obj->type == TYPE_POLYGON)
+		{
+			printf("POLY : v0 = %f %f %f | v1 = %f %f %f | v2 = %f %f %f | color = %f %f %f\n",	obj->poly.v1.x,
+																							obj->poly.v1.y,
+																							obj->poly.v1.z,
+																							obj->poly.v2.x,
+																							obj->poly.v2.y,
+																							obj->poly.v2.z,
+																							obj->poly.v3.x,
+																							obj->poly.v3.y,
+																							obj->poly.v3.z,
+																							obj->color.x,
+																							obj->color.y,
+																							obj->color.z);
+		}
+		else if (obj->type == TYPE_CONE)
+		{
+			printf("CONE : color : %f %f %f | tip : %f %f %f | axis : %f %f %f | height : %f | radius : %f\n",	obj->color.x,
+																												obj->color.y,
+																												obj->color.z,
+																												obj->cone.tip.x,
+																												obj->cone.tip.y,
+																												obj->cone.tip.z,
+																												obj->cone.axis.x,
+																												obj->cone.axis.y,
+																												obj->cone.axis.z,
+																												obj->cone.height,
+																												obj->cone.radius);
+		}
 	}
-}*/
+}
 
 /*
 static void	print_lights(t_rt_env *env)
@@ -34,7 +72,10 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 	cl = ((t_opencl*)&env->cl_env);
 	cam = ((t_camera*)&env->scene.cam);
 
-	//print_objects(env);
+	t_light	*light;
+	light = dyacc(&env->scene.lights, 0);
+	//light->origin.x += 0.01f;
+	print_objects(env);
 	//print_lights(env);
 	// Update data in buffers and params
 	cam->nb_objects = env->scene.objects.nb_cells;

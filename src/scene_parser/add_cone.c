@@ -2,7 +2,9 @@
 
 static int	get_arg_value(t_var var, t_object *obj, char *split)
 {
-	int	ret = 0;
+	cl_float3	tmp;
+	cl_float	t;
+	int			ret = 0;
 
 	if (var.type == DT_VECTOR_P)
 	{
@@ -11,29 +13,43 @@ static int	get_arg_value(t_var var, t_object *obj, char *split)
 			return (ERROR_COLOR_VALUE_OUT_OF_RANGE);
 	}
 	else if (var.type == DT_VECTOR_B)
-		ret = parse_vector(split, "[]", &obj->sphere.origin);
+	{
+		ret = parse_vector(split, "[]", &tmp);
+		if (ft_strcmp(var.name, "tip=") == 0)
+			obj->cone.tip = tmp;
+		else
+			obj->cone.axis = tmp;
+	}
 	else // DT_FLOAT
 	{
-		obj->sphere.radius = ft_atof(&split[ft_strlen(var.name)]);
-		if (!is_float_in(obj->sphere.radius, 0.0f, INFINITY))
-			return (ERROR_NEGATIVE_RADIUS_VALUE);
+		t = ft_atof(&split[ft_strlen(var.name)]);
+		if (ft_strcmp(var.name, "radius=") == 0)
+			obj->cone.radius = t;
+		else
+		{
+			if (!is_float_in(t, 0.0f, INFINITY))
+				return (ERROR_INVALID_CONE_HEIGHT_VALUE);
+			obj->cone.height = t;
+		}
 	}
 	return (ret);
 }
 
-int			add_sphere(t_rt_env *env, char **split)
+int			add_cone(t_rt_env *env, char **split)
 {
-	const t_var	vars[NARG_SPHERE] ={
+	const t_var	vars[NARG_CONE] ={
 									{"color=", DT_VECTOR_P},
-									{"position=", DT_VECTOR_B},
-									{"radius=", DT_FLOAT}
-									};
+									{"radius=", DT_FLOAT},
+									{"height=", DT_FLOAT},
+									{"tip=", DT_VECTOR_B},
+									{"axis=", DT_VECTOR_B}
+								};
 	t_object	new;
 	bool		found;
 	int			ret;
 
-	new.type = TYPE_SPHERE;
-	for (unsigned int i = 0; i < NARG_SPHERE; i++)
+	new.type = TYPE_CONE;
+	for (unsigned int i = 0; i < NARG_CONE; i++)
 	{
 		found = false;
 		for (unsigned int j = 0; split[j]; j++)
@@ -48,7 +64,5 @@ int			add_sphere(t_rt_env *env, char **split)
 		if (!found)
 			return (ERROR_ARG_NOT_FOUND);
 	}
-	
 	return (add_object_to_scene(env, &new));
 }
-

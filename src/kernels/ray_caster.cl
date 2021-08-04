@@ -32,6 +32,15 @@ typedef struct	s_camera
 	unsigned int	nb_lights;
 }				t_camera;
 
+typedef struct	s_cone
+{
+	float3	color;
+	float3	tip;
+	float3	axis;
+	float	height;
+	float	radius;
+}				t_cone;
+
 typedef struct	s_polygon
 {
 	float3 v0;
@@ -51,6 +60,7 @@ typedef struct	s_object
 	{
 		t_polygon	poly;
 		t_sphere	sphere;
+		t_cone		cone;
 	};
 	float3	color; // Color of the object
 	int		type;
@@ -93,6 +103,38 @@ static float	ray_polygon_intersection(float3 ray_o, float3 ray_dir, t_polygon po
 		return (t);
     else
 		return (-1.0f);
+}
+
+static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
+{
+	const float3	theta = normalize(cone.axis - cone.tip);
+	float3			w;
+	float			m, d1, d2, a, b, c, d;
+	float			t1, t2;
+
+	m = pow(cone.radius, 2) / pow(cone.height, 2);
+	w = ray_o - cone.tip;
+	d1 = dot(ray_dir, theta);
+	d2 = dot(w, theta);
+	a = d1 * d1;
+	a = dot(ray_dir, ray_dir) - m * a - a;
+	b = 2.0f * (dot(ray_dir, w) - m * d1 * d2 - d1 * d2);
+	c = dot(w, w) - m * pow(d2, 2) - pow(d2, 2);
+	d = b * b - 4 * a * c;
+
+	if (d < 0.0f)
+		return (-1.0f);
+
+	d = sqrt(d);
+	t1 = (-b - d) / (2.0f * a);
+	t2 = (-b + d) / (2.0f * b);
+
+	if (t1 >= 0.0f)
+		return (t1);
+	else if (t2 >= 0.0f)
+		return (t2);
+
+	return (-1.0f);
 }
 
 //---------------------------------------------------------------------
@@ -162,8 +204,11 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	{
 		if (objects[i].type == TYPE_SPHERE)
 			dist = ray_sphere_intersection(cam.o, ray_dir, objects[i].sphere);
-		if (objects[i].type == TYPE_POLYGON)
+		else if (objects[i].type == TYPE_POLYGON)
 			dist = ray_polygon_intersection(cam.o, ray_dir, objects[i].poly);
+		else if (objects[i].type == TYPE_CONE)
+			dist = ray_cone_intersection(cam.o, ray_dir, objects[i].cone);
+
 		if (dist > 0 && dist < min_dist)
 		{
 			closest = &objects[i];
@@ -177,8 +222,10 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	p = ray_dir * (min_dist - EPSILON);
 	if (closest->type == TYPE_SPHERE)
 		n = normalize(p - closest->sphere.origin);
-	if (closest->type == TYPE_POLYGON)
+	else if (closest->type == TYPE_POLYGON)
 		n = cross(closest->poly.v1 - closest->poly.v0, closest->poly.v2 - closest->poly.v0);
+	//else if (closest->type == TYPE_CONE)
+	//	n = cross(closest->poly.v1 - closest->poly.v0, closest->poly.v2 - closest->poly.v0);
 
 	if (dot(n, ray_dir) > 0)
 		n *= -1;
