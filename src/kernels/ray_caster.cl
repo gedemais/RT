@@ -230,7 +230,7 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	if (dot(n, ray_dir) > 0)
 		n *= -1;
 
-	return (shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
+	return (closest->type == TYPE_CONE ? closest->color : shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
 }
 
 static int		color_to_int(const float3 color, float brightness)
