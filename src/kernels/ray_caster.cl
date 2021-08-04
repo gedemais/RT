@@ -139,11 +139,6 @@ static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
 
 //---------------------------------------------------------------------
 
-static float3	mix_colors(float3 a, float3 b)
-{
-	return (normalize(a * b));
-}
-
 static float3	color_pixel(__global t_light *light, float3 color, float3 obj_color, float3 n, float3 shadow_ray_dir)
 {
 	float3	c;
@@ -179,8 +174,8 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		for (unsigned int j = 0; j < cam.nb_objects; j++)
 		{
 			if ((objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j].sphere) > 0)
-				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0))
-			//	|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0))
+				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0)
+				|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0))
 			{
 				in_shadow = true;
 				break;
@@ -222,7 +217,7 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 
 	p = ray_dir * (min_dist - EPSILON);
 	if (closest->type == TYPE_SPHERE)
-		n = p - closest->sphere.origin;
+		n = normalize(p - closest->sphere.origin);
 	else if (closest->type == TYPE_POLYGON)
 		n = cross(closest->poly.v1 - closest->poly.v0, closest->poly.v2 - closest->poly.v0);
 	else if (closest->type == TYPE_CONE)
