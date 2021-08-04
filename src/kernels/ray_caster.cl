@@ -176,7 +176,7 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 
 	p = ray_dir * (min_dist - EPSILON);
 	if (closest->type == TYPE_SPHERE)
-		n = p - closest->sphere.origin;
+		n = normalize(p - closest->sphere.origin);
 	if (closest->type == TYPE_POLYGON)
 		n = cross(closest->poly.v1 - closest->poly.v0, closest->poly.v2 - closest->poly.v0);
 
