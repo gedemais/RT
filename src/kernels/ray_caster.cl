@@ -113,15 +113,15 @@ static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
 	float			m, d1, d2, a, b, c, d;
 	float			t1, t2;
 
-	m = pow(cone.radius, 2) / pow(cone.height, 2);
+	m = pow(cone.radius, 2.0f) / pow(cone.height, 2.0f);
 	w = ray_o - cone.tip;
 	d1 = dot(ray_dir, theta);
 	d2 = dot(w, theta);
 	a = d1 * d1;
 	a = dot(ray_dir, ray_dir) - m * a - a;
 	b = 2.0f * (dot(ray_dir, w) - m * d1 * d2 - d1 * d2);
-	c = dot(w, w) - m * pow(d2, 2) - pow(d2, 2);
-	d = b * b - 4 * a * c;
+	c = dot(w, w) - m * pow(d2, 2.0f) - pow(d2, 2.0f);
+	d = b * b - 4.0f * a * c;
 
 	if (d < 0.0f)
 		return (-1.0f);
@@ -179,9 +179,9 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		shadow_ray_dir = normalize(lights[i].origin - p);
 		for (unsigned int j = 0; j < cam.nb_objects; j++)
 		{
-			if ((objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j].sphere) > 0)
-				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0))
-				//|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0))
+			if ((objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j].sphere) > 0.0f)
+				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0.0f)
+				|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0.0f))
 			{
 				in_shadow = true;
 				break;
@@ -221,9 +221,6 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	if (closest == NULL)
 		return ((float3)(0.0, 0.0, 0.0));
 
-	if (closest->type == TYPE_CONE)
-		printf("There\n");
-
 	p = ray_dir * (min_dist - EPSILON);
 	if (closest->type == TYPE_SPHERE)
 		n = normalize(p - closest->sphere.origin);
@@ -235,11 +232,17 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 		n = normalize(cp * dot(normalize(closest->cone.axis), cp) / dot(cp, cp) - normalize(closest->cone.axis));
 	}
 
-	if (dot(n, ray_dir) > 0)
+	if (dot(n, ray_dir) > 0.0f)
 		n *= -1;
 
+	for (unsigned int i = 0; i < cam.nb_objects; i++)
+		printf("%d\n", objects[i].type);
 	if (closest->type == TYPE_CONE)
+	{
+		//printf("There\n");
 		return (closest->color);
+	}
+
 	return (shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
 }
 
@@ -263,13 +266,13 @@ __kernel void	ray_caster(__global int *img, __global t_object *objects, __global
 	const unsigned short x = get_global_id(0);
 	const unsigned short y = get_global_id(1);
 
-	const float3 ray_dir = compute_ray_direction(cam, x, y);
-
-	/*if (x == 0 && y == 0)
+/*	if (x == 0 && y == 0)
 	{
-		printf("nb_lights = %d\n", cam.nb_lights);
-		printf("origin : %f %f %f | color : %f %f %f | brightness : %f\n", lights[0].origin.x, lights[0].origin.y, lights[0].origin.z, lights[0].color.x, lights[0].color.y, lights[0].color.z, lights[0].brightness);
+		printf("%d objects\n", cam.nb_objects);
+		for (unsigned int i = 0; i < cam.nb_objects; i++)
+			printf("%d\n", objects[i].type);
 	}*/
+	const float3 ray_dir = compute_ray_direction(cam, x, y);
 
 	const float3 color = cast_ray(objects, lights, cam, ray_dir);
 

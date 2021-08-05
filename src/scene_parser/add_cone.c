@@ -48,6 +48,7 @@ int			add_cone(t_rt_env *env, char **split)
 	bool		found;
 	int			ret;
 
+	ft_bzero(&new, sizeof(t_object));
 	new.type = TYPE_CONE;
 	for (unsigned int i = 0; i < NARG_CONE; i++)
 	{
