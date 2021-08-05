@@ -1,6 +1,7 @@
 
 #define NULL (void*)0
 #define EPSILON 0.000001f
+# define PI 3.141f
 
 enum	e_object_type
 {
@@ -75,14 +76,14 @@ static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_sphere sphe
 	const float3 oc = ray_o - sphere.origin;
 
 	a = dot(ray_dir, ray_dir);
-	b = 2.0 * dot(oc, ray_dir);
+	b = 2.0f * dot(oc, ray_dir);
 	c = dot(oc, oc) - (sphere.radius * sphere.radius);
 
-	discriminant = b * b - 4.0 * a * c;
+	discriminant = b * b - 4.0f * a * c;
 
 	if (discriminant < 0)
-		return (-1.0);
-	return (-b - sqrt(discriminant)) / (2.0 * a);
+		return (-1.0f);
+	return (-b - sqrt(discriminant)) / (2.0f * a);
 }
 
 static float	ray_polygon_intersection(float3 ray_o, float3 ray_dir, t_polygon poly)
@@ -159,8 +160,8 @@ static float3	compute_ray_direction(t_camera cam, const unsigned short x, const 
 	float	px = 2.0 * (((float)x + 0.5) / (float)cam.img_wdt) - 1.0;
 	float	py = 1.0 - 2.0 * (((float)y + 0.5) / (float)cam.img_hgt);
 
-	px *= tan(cam.fov / 2.0f * 3.141f / 180.0f) * cam.aspect_ratio;
-	py *= tan(cam.fov / 2.0f * 3.141f / 180.0f);
+	px *= tan(cam.fov / 2.0f * PI / 180.0f) * cam.aspect_ratio;
+	py *= tan(cam.fov / 2.0f * PI / 180.0f);
 
 	return (normalize((float3){px, py, -1} - cam.o));
 }
@@ -180,6 +181,7 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		{
 			if ((objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j].sphere) > 0)
 				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0))
+				//|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0))
 			{
 				in_shadow = true;
 				break;
@@ -188,7 +190,7 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		if (!in_shadow)
 			color = color_pixel(&lights[i], color, hit_obj->color, n, shadow_ray_dir);
 	}
-	color = (color + (cam.brightness / 3.141f * hit_obj->color)) * cam.ambiant_color;
+	color = (color + (cam.brightness / PI * hit_obj->color)) * cam.ambiant_color;
 	return (color);
 }
 
@@ -219,18 +221,26 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	if (closest == NULL)
 		return ((float3)(0.0, 0.0, 0.0));
 
+	if (closest->type == TYPE_CONE)
+		printf("There\n");
+
 	p = ray_dir * (min_dist - EPSILON);
 	if (closest->type == TYPE_SPHERE)
 		n = normalize(p - closest->sphere.origin);
 	else if (closest->type == TYPE_POLYGON)
 		n = cross(closest->poly.v1 - closest->poly.v0, closest->poly.v2 - closest->poly.v0);
-	//else if (closest->type == TYPE_CONE)
-	//	n = cross(closest->poly.v1 - closest->poly.v0, closest->poly.v2 - closest->poly.v0);
+	else if (closest->type == TYPE_CONE)
+	{
+		const float3 cp = cam.o + min_dist * ray_dir - closest->cone.tip;
+		n = normalize(cp * dot(normalize(closest->cone.axis), cp) / dot(cp, cp) - normalize(closest->cone.axis));
+	}
 
 	if (dot(n, ray_dir) > 0)
 		n *= -1;
 
-	return (closest->type == TYPE_CONE ? closest->color : shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
+	if (closest->type == TYPE_CONE)
+		return (closest->color);
+	return (shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
 }
 
 static int		color_to_int(const float3 color, float brightness)
