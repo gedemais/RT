@@ -16,7 +16,7 @@ Another damned pixel matrice. Again.
 
 - [x] Multi-Spots, Ombres
 
-- [ ] Objets mathématiques obligatoires (plan, cone, cylindre, sphère)
+- [ ] Objets mathématiques obligatoires (plan, cone, cylindre, sphère) (suspendu)
 
 - [ ] Camera moves and rotations
 
