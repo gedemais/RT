@@ -1,6 +1,5 @@
-
 #define NULL (void*)0
-#define EPSILON 0.000001f
+#define EPSILON 0.0001f
 # define PI 3.141f
 
 enum	e_object_type
@@ -113,7 +112,7 @@ static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
 	float			m, d1, d2, a, b, c, d;
 	float			t1, t2;
 
-	m = pow(cone.radius, 2.0f) / pow(cone.height, 2.0f);
+	m = pow(cone.radius / cone.height, 2.0f);
 	w = ray_o - cone.tip;
 	d1 = dot(ray_dir, theta);
 	d2 = dot(w, theta);
@@ -140,11 +139,6 @@ static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
 
 //---------------------------------------------------------------------
 
-static float3	mix_colors(float3 a, float3 b)
-{
-	return (normalize(a * b));
-}
-
 static float3	color_pixel(__global t_light *light, float3 color, float3 obj_color, float3 n, float3 shadow_ray_dir)
 {
 	float3	c;
@@ -157,13 +151,13 @@ static float3	color_pixel(__global t_light *light, float3 color, float3 obj_colo
 
 static float3	compute_ray_direction(t_camera cam, const unsigned short x, const unsigned short y)
 {
-	float	px = 2.0 * (((float)x + 0.5) / (float)cam.img_wdt) - 1.0;
-	float	py = 1.0 - 2.0 * (((float)y + 0.5) / (float)cam.img_hgt);
+	float	px = 2.0f * (((float)x + 0.5f) / (float)cam.img_wdt) - 1.0f;
+	float	py = 1.0f - 2.0f * (((float)y + 0.5f) / (float)cam.img_hgt);
 
 	px *= tan(cam.fov / 2.0f * PI / 180.0f) * cam.aspect_ratio;
 	py *= tan(cam.fov / 2.0f * PI / 180.0f);
 
-	return (normalize((float3){px, py, -1} - cam.o));
+	return (normalize((float3){px, py, -1.0f} - cam.o));
 }
 
 static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_light *lights, __global t_object *hit_obj, const float3 ray_dir, float3 p, float3 n)
@@ -181,7 +175,7 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		{
 			if ((objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j].sphere) > 0.0f)
 				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0.0f)
-				|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0.0f))
+				//|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0.0f))
 			{
 				in_shadow = true;
 				break;
@@ -221,25 +215,25 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 	if (closest == NULL)
 		return ((float3)(0.0, 0.0, 0.0));
 
-	p = ray_dir * (min_dist - EPSILON);
+	p = cam.o + ray_dir * (min_dist - EPSILON);
 	if (closest->type == TYPE_SPHERE)
 		n = normalize(p - closest->sphere.origin);
 	else if (closest->type == TYPE_POLYGON)
 		n = cross(closest->poly.v1 - closest->poly.v0, closest->poly.v2 - closest->poly.v0);
 	else if (closest->type == TYPE_CONE)
 	{
-		const float3 cp = cam.o + min_dist * ray_dir - closest->cone.tip;
+		const float3 cp = p - closest->cone.tip;
 		n = normalize(cp * dot(normalize(closest->cone.axis), cp) / dot(cp, cp) - normalize(closest->cone.axis));
 	}
 
 	if (dot(n, ray_dir) > 0.0f)
 		n *= -1;
 
-	for (unsigned int i = 0; i < cam.nb_objects; i++)
-		printf("%d\n", objects[i].type);
+//	for (unsigned int i = 0; i < cam.nb_objects; i++)
+//		printf("%d\n", objects[i].type);
 	if (closest->type == TYPE_CONE)
 	{
-		//printf("There\n");
+		printf("There\n");
 		return (closest->color);
 	}
 
