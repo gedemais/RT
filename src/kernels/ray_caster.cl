@@ -174,7 +174,7 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		for (unsigned int j = 0; j < cam.nb_objects; j++)
 		{
 			if ((objects[j].type == TYPE_SPHERE && ray_sphere_intersection(p, shadow_ray_dir, objects[j].sphere) > 0.0f)
-				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0.0f)
+				|| (objects[j].type == TYPE_POLYGON && ray_polygon_intersection(p, shadow_ray_dir, objects[j].poly) > 0.0f))
 				//|| (objects[j].type == TYPE_CONE && ray_cone_intersection(p, shadow_ray_dir, objects[j].cone) > 0.0f))
 			{
 				in_shadow = true;
