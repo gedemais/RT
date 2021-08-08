@@ -2,6 +2,9 @@
 #define EPSILON 0.0001f
 # define PI 3.141f
 
+# define SPEC_TEST 0.5f
+# define SPEC_COLOR_TEST (float3)(1.0f, 0.0f, 0.0f)
+
 enum	e_object_type
 {
 	TYPE_POLYGON,
@@ -139,12 +142,29 @@ static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
 
 //---------------------------------------------------------------------
 
-static float3	color_pixel(__global t_light *light, float3 color, float3 obj_color, float3 n, float3 shadow_ray_dir)
+static float3	specular(__global t_light *light, __global t_object* hit_obj,
+							t_camera cam, float3 color, float3 p, float3 n)
+{
+	float3	reflect;
+	float3	view_dir;
+	float3	d;
+
+	d = normalize(p - cam.o);
+	view_dir = normalize(cam.o - hit_obj->sphere.origin);
+
+	reflect = normalize(d - 2.0f * dot(d, n) * n);
+
+	return (pow(dot(view_dir, reflect), 2));
+}
+
+static float3	color_pixel(__global t_light *light, __global t_object* hit_obj, t_camera cam,
+								float3 shadow_ray_dir, float3 color, float3 p, float3 n)
 {
 	float3	c;
 
-	c = obj_color * (light->brightness * fmax(0.0f, fmin(1.0f, dot(n, shadow_ray_dir))));
-	c *= light->color;
+	c = hit_obj->color * light->brightness * fmax(0.0f, dot(n, shadow_ray_dir));
+	//c += light->color;
+	c += light->color * (SPEC_COLOR_TEST * specular(light, hit_obj, cam, color, p, n));
 
 	return (color + c);
 }
@@ -182,7 +202,7 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 			}
 		}
 		if (!in_shadow)
-			color = color_pixel(&lights[i], color, hit_obj->color, n, shadow_ray_dir);
+			color = color_pixel(&lights[i], hit_obj, cam, shadow_ray_dir, color, p, n);
 	}
 	color = (color + (cam.brightness / PI * hit_obj->color)) * cam.ambiant_color;
 	return (color);

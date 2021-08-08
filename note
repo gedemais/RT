@@ -1,0 +1,23 @@
+Specular Light :
+Chaque objet doit posseder sa couleur speculaire.
+Chaque objet doit posseder un facteur speculaire (0-1).
+
+Il faut commencer par definir le vecteur de reflection de la lumiere.
+Le vecteur de reflection de la lumiere se calcule symetriquement a la
+normale de la surface au point d'impact.
+
+Formule de calcul du rayon reflechi :
+
+r = normalize(d - 2.0f * (d . n) * n)
+
+Ou :
+- d est le rayon incident (partant de la camera)
+- n est la normale de la surface au point d'impact
+
+Une fois r obtenu, on calcule l'angle entre r, et la direction de la vue avec un produit scalaire (dot product).
+
+Formule de calcul de la direction de la vue :
+
+view_dir = normalize(origine de la camera - origine de l'objet touche)
+
+specular = pow(dot(view_dir, r), 2)
