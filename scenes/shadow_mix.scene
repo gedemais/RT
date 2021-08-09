@@ -8,10 +8,10 @@ set brightness : 0.8
 set ambiant_color : (1.0, 1.0, 1.0)
 
 addobj sphere color=(0.0, 1.0, 0.0) position=[0.0, -0.25, -2.0] radius=0.5
-
+#
 # Floor
 addobj sphere color=(1.0, 1.0, 1.0) position=[0.0, -1001.0, 0] radius=1000.0 
 
-#addlight position=[-1.2, 1.0, -1.0] color=(1.0, 1.0, 1.0) brightness=0.3
+addlight position=[-1.2, 1.0, -1.0] color=(1.0, 1.0, 1.0) brightness=0.3
 addlight position=[0, 1.0, -1.0] color=(1.0, 1.0, 1.0) brightness=0.3
-#addlight position=[1.2, 1.0, -1.0] color=(1.0, 1.0, 1.0) brightness=0.3
+addlight position=[1.2, 1.0, -1.0] color=(1.0, 1.0, 1.0) brightness=0.3

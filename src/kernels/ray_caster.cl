@@ -2,8 +2,8 @@
 #define EPSILON 0.0001f
 # define PI 3.141f
 
-# define SPEC_TEST 0.5f
-# define SPEC_COLOR_TEST (float3)(1.0f, 0.0f, 0.0f)
+# define SPEC_TEST 1.0f
+# define SPEC_COLOR_TEST (float3)(1.0f, 1.0f, 1.0f)
 
 enum	e_object_type
 {
@@ -154,7 +154,7 @@ static float3	specular(__global t_light *light, __global t_object* hit_obj,
 
 	reflect = normalize(d - 2.0f * dot(d, n) * n);
 
-	return (pow(dot(view_dir, reflect), 2));
+	return (pow(dot(view_dir, reflect), 64.0f));
 }
 
 static float3	color_pixel(__global t_light *light, __global t_object* hit_obj, t_camera cam,
@@ -163,7 +163,7 @@ static float3	color_pixel(__global t_light *light, __global t_object* hit_obj, t
 	float3	c;
 
 	c = hit_obj->color * light->brightness * fmax(0.0f, dot(n, shadow_ray_dir));
-	//c += light->color;
+	//c *= light->color;
 	c += light->color * (SPEC_COLOR_TEST * specular(light, hit_obj, cam, color, p, n));
 
 	return (color + c);
