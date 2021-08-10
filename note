@@ -21,3 +21,7 @@ Formule de calcul de la direction de la vue :
 view_dir = normalize(origine de la camera - origine de l'objet touche)
 
 specular = pow(dot(view_dir, r), 2)
+
+------------------------------
+Phong model
+

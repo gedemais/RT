@@ -2,6 +2,12 @@
 # define EPSILON 0.0001f
 # define PI 3.141f
 
+# define KS 0.5f
+# define KD 0.0f
+# define KA 0.0f
+
+# define ALPHA 10.0f
+
 enum	e_object_type
 {
 	TYPE_POLYGON,
@@ -139,15 +145,14 @@ static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
 
 //---------------------------------------------------------------------
 
-static float3	color_pixel(__global t_light *light, __global t_object* hit_obj, t_camera cam,
+static float3	phong_pixel_iteration(__global t_light *light, __global t_object* hit_obj, t_camera cam,
 								float3 shadow_ray_dir, float3 color, float3 p, float3 n)
 {
-	float3	c;
+	float3	reflect_dir;
 
-	c = hit_obj->color * light->brightness * fmax(0.0f, dot(n, shadow_ray_dir));
-	c *= light->color;
+	reflect_dir = normalize(-shadow_ray_dir - 2.0f * (-shadow_ray_dir, n) * n);
 
-	return (color + c);
+	return (color);
 }
 
 static float3	compute_ray_direction(t_camera cam, const unsigned short x, const unsigned short y)
@@ -185,7 +190,7 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 		if (!in_shadow)
 			color = color_pixel(&lights[i], hit_obj, cam, shadow_ray_dir, color, p, n);
 	}
-	color = (color + (cam.brightness / PI * hit_obj->color)) * cam.ambiant_color;
+	color += cam.brightness * cam.ambiant_color;
 	return (color);
 }
 
