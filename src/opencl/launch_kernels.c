@@ -106,7 +106,7 @@ int		launch_ray_caster_kernel(t_rt_env *env)
 							CL_TRUE, 0, cam->img_wdt * cam->img_hgt * 4,
 							env->mlx.img_data, 0, NULL, NULL) != CL_SUCCESS)
 	{
-		ft_putstr_fd("Copy from GPU failed\n", 2);
+		ft_putendl_fd("Copy from GPU failed", 2);
 		return (-1); // To add
 	}
 

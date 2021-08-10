@@ -250,9 +250,9 @@ static int		color_to_int(const float3 color, float brightness)
 		brightness = 1.0f;
 
 	// RGB, not BGR
-	ptr[2] = (unsigned char)(brightness * (color.x >= 1.0 ? 255 : (color.x <= 0.0 ? 0 : (int)floor(color.x * 256.0f))));
-	ptr[1] = (unsigned char)(brightness * (color.y >= 1.0 ? 255 : (color.y <= 0.0 ? 0 : (int)floor(color.y * 256.0f))));
-	ptr[0] = (unsigned char)(brightness * (color.z >= 1.0 ? 255 : (color.z <= 0.0 ? 0 : (int)floor(color.z * 256.0f))));
+	ptr[2] = (unsigned char)(brightness * (color.x >= 1.0f ? 255 : (color.x <= 0.0f ? 0.0f : (int)floor(color.x * 256.0f))));
+	ptr[1] = (unsigned char)(brightness * (color.y >= 1.0f ? 255 : (color.y <= 0.0f ? 0.0f : (int)floor(color.y * 256.0f))));
+	ptr[0] = (unsigned char)(brightness * (color.z >= 1.0f ? 255 : (color.z <= 0.0f ? 0.0f : (int)floor(color.z * 256.0f))));
 	return (ret);
 }
 
