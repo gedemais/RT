@@ -1,9 +1,6 @@
-#define NULL (void*)0
-#define EPSILON 0.0001f
+# define NULL (void*)0
+# define EPSILON 0.0001f
 # define PI 3.141f
-
-# define SPEC_TEST 1.0f
-# define SPEC_COLOR_TEST (float3)(1.0f, 1.0f, 1.0f)
 
 enum	e_object_type
 {
@@ -142,29 +139,13 @@ static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
 
 //---------------------------------------------------------------------
 
-static float3	specular(__global t_light *light, __global t_object* hit_obj,
-							t_camera cam, float3 color, float3 p, float3 n)
-{
-	float3	reflect;
-	float3	view_dir;
-	float3	d;
-
-	d = normalize(p - cam.o);
-	view_dir = normalize(cam.o - hit_obj->sphere.origin);
-
-	reflect = normalize(d - 2.0f * dot(d, n) * n);
-
-	return (pow(dot(view_dir, reflect), 64.0f));
-}
-
 static float3	color_pixel(__global t_light *light, __global t_object* hit_obj, t_camera cam,
 								float3 shadow_ray_dir, float3 color, float3 p, float3 n)
 {
 	float3	c;
 
 	c = hit_obj->color * light->brightness * fmax(0.0f, dot(n, shadow_ray_dir));
-	//c *= light->color;
-	c += light->color * (SPEC_COLOR_TEST * specular(light, hit_obj, cam, color, p, n));
+	c *= light->color;
 
 	return (color + c);
 }
