@@ -31,13 +31,15 @@ void	rt_error(int exit_code)
 		[ERROR_COLOR_VALUE_OUT_OF_RANGE] = "scene_parser : Out of range color value (0.0 - 1.0 components).",
 		[ERROR_NEGATIVE_RADIUS_VALUE] = "scene_parser : Negative sphere radius value.",
 		[ERROR_INVALID_CONE_HEIGHT_VALUE] = "scene_parser : Invalid cone height value (<= 0)",
-		[ERROR_ARG_NOT_FOUND] = "scene_parser : Missing argument for addobj command."
+		[ERROR_ARG_NOT_FOUND] = "scene_parser : Missing argument for addobj command.",
+		[ERROR_INVALID_SPECULAR_EXPONENT_VALUE] = "scene_parser : Invalid specular exponent value (0 - 100.0)",
+		[ERROR_INVALID_OPACITY_VALUE] = "scene_parser : Invalid opacity value (0 - 1.0)",
+		[ERROR_INVALID_CHAR_IN_MTL_NAME] = "scene_parser : Invalid character in material name (must be alphanumeric).",
+		[ERROR_MTL_NAME_NOT_FOUND] = "scene_parser : mtl name value not found",
+		[ERROR_MTL_NAME_TOO_LONG] = "scene_parser : mtl name value is too long"
 		//[] = "",
 		//[] = "",
 		//[] = "",
-		//[] = "",
-
-
 		//[] = "",
 	};
 	ft_putstr_fd("rt : ", 2);

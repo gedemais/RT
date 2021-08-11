@@ -30,11 +30,13 @@ int			get_commands(t_rt_env *env, char **lines)
 {
 	static int	(*cmd_fts[NB_COMMANDS])(t_rt_env*, char*) = {
 															cmd_addobj,
-															cmd_addlight
+															cmd_addlight,
+															cmd_addmtl
 																};
 	const char	*commands[NB_COMMANDS] = {
 											"addobj",
-											"addlight"
+											"addlight",
+											"addmtl"
 											};
 	int			ret;
 

@@ -2,6 +2,7 @@
 # define OBJECTS_H
 
 # define MAX_OBJECTS 4096
+# define MAX_MTLS 256
 # define MAX_LIGHTS 128
 
 # include <OpenCL/cl.h>
@@ -11,6 +12,7 @@ enum	e_data_type
 {
 	DT_VECTOR_P, // Parenthesis
 	DT_VECTOR_B, // Brackets
+	DT_STRING,
 	DT_FLOAT,
 	DT_INT,
 	DT_MAX
@@ -18,10 +20,11 @@ enum	e_data_type
 
 enum	e_nb_args
 {
-	NARG_SPHERE = 3,
+	NARG_SPHERE = 2,
 	NARG_POLYGON = 4,
 	NARG_CONE = 5,
-	NARG_LIGHT = 3
+	NARG_LIGHT = 3,
+	NARG_MTL = 5,
 };
 
 typedef struct	s_var
@@ -73,6 +76,16 @@ struct	s_sphere
 	cl_float3	origin; // Center point of the sphere
 };
 
+struct	s_material
+{
+	char		name[64];
+	cl_float3	ka; // Ambiant color
+	cl_float3	ks; // Specular color
+	cl_float3	kd; // Diffuse color
+	cl_float	ns; // Specular exponent
+	cl_float	d; // Opacity
+};
+
 struct	s_object
 {
 	union
@@ -84,7 +97,7 @@ struct	s_object
 		// t_cylinder cylinder;
 		// t_;
 	};
-	cl_float3	color; // Color of the object
+	t_material	mtl;
 	cl_int		type;
 };
 

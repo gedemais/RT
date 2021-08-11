@@ -4,13 +4,7 @@ static int	get_arg_value(t_var var, t_object *obj, char *split)
 {
 	int	ret = 0;
 
-	if (var.type == DT_VECTOR_P)
-	{
-		ret = parse_vector(split, "()", &obj->color);
-		if (ret == 0 && !is_vec_in(obj->color, 0.0f, 1.0f))
-			return (ERROR_COLOR_VALUE_OUT_OF_RANGE);
-	}
-	else if (var.type == DT_VECTOR_B)
+	if (var.type == DT_VECTOR_B)
 		ret = parse_vector(split, "[]", &obj->sphere.origin);
 	else // DT_FLOAT
 	{
@@ -23,8 +17,8 @@ static int	get_arg_value(t_var var, t_object *obj, char *split)
 
 int			add_sphere(t_rt_env *env, char **split)
 {
-	const t_var	vars[NARG_SPHERE] ={
-									{"color=", DT_VECTOR_P},
+	const t_var	vars[NARG_SPHERE] =	{
+									{"material=", DT_STRING},
 									{"position=", DT_VECTOR_B},
 									{"radius=", DT_FLOAT}
 									};

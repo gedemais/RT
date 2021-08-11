@@ -16,6 +16,7 @@ SRC_NAME=core/main.c\
 		 scene_parser/get_variables.c\
 		 scene_parser/var_parsing_fts.c\
 		 scene_parser/addobj.c\
+		 scene_parser/addmtl.c\
 		 scene_parser/add_sphere.c\
 		 scene_parser/add_polygon.c\
 		 scene_parser/add_cone.c\

@@ -15,8 +15,6 @@ bool		is_float_in(float f, float min, float max)
 }
 
 
-//
-
 int			add_object_to_scene(t_rt_env *env, t_object *obj)
 {
 	if (env->scene.objects.byte_size == 0

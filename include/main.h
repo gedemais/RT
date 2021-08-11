@@ -23,7 +23,7 @@
 #endif
 
 # define NB_SCENE_VARS 6
-# define NB_COMMANDS 2
+# define NB_COMMANDS 3
 # define MAX_WINDOW_DIM 4320
 
 # define CAM_SPEED 0.1f // replace with a variable in scene file
@@ -47,9 +47,10 @@ struct			s_mlx
 
 struct	s_scene
 {
-	t_camera	cam;
+	t_camera	cam;  // Multi cams ?
 	t_dynarray	objects;
 	t_dynarray	lights;
+	t_dynarray	mtls;
 };
 
 struct	s_rt_env
@@ -78,6 +79,7 @@ int		parse_scene(t_rt_env *env, char *arg);
 
 int		cmd_addobj(t_rt_env *env, char *line);
 int		cmd_addlight(t_rt_env *env, char *line);
+int		cmd_addmtl(t_rt_env *env, char *line);
 int		add_object_to_scene(t_rt_env *env, t_object *obj);
 
 int		add_sphere(t_rt_env *env, char **split);
