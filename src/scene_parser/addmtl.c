@@ -33,10 +33,10 @@ static int	get_arg_value(t_var var, t_material *mtl, char *split)
 	{
 		if (ft_strncmp(var.name, "ns=", ft_strlen(var.name)) == 0)
 		{
-			if (!is_float_in((mtl->ns = ft_atof(split)), 0.0f, 100.0f))
+			if (!is_float_in((mtl->ns = ft_atof(&split[3])), 0.0f, 100.0f))
 				return (ERROR_INVALID_SPECULAR_EXPONENT_VALUE);
 		}
-		else if (!is_float_in((mtl->d = ft_atof(split)), 0.0f, 1.0f))
+		else if (!is_float_in((mtl->d = ft_atof(&split[2])), 0.0f, 1.0f))
 				return (ERROR_INVALID_OPACITY_VALUE);
 	}
 	return (ret);
@@ -63,7 +63,7 @@ static int	get_mtl_name(t_material *new, char **split)
 
 	if (ft_strlen(split[1]) >= MAX_MTL_NAME_LENGTH)
 		return (ERROR_MTL_NAME_TOO_LONG);
-	ft_strcpy(split[1], new->name);
+	ft_strcpy(new->name, split[1]);
 	return (0);
 }
 

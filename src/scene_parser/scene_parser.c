@@ -26,6 +26,17 @@ static void	data_spread(t_rt_env *env)
 	//cam->fov_rad = 1.0f / tan(cam->fov * 0.5f / 180.0f * 3.14159f);
 }
 
+void	parser_error(char **lines, unsigned int i)
+{
+	char	buff[4096];
+
+	ft_strcpy(buff, "Scene parser failed");
+	ft_strcat(buff, " :\n");
+	ft_strcat(buff, lines[i]);
+
+	ft_putendl(buff);
+}
+
 int			get_commands(t_rt_env *env, char **lines)
 {
 	static int	(*cmd_fts[NB_COMMANDS])(t_rt_env*, char*) = {
@@ -46,7 +57,10 @@ int			get_commands(t_rt_env *env, char **lines)
 		{
 			if (ft_strncmp(lines[i], commands[j], ft_strlen(commands[j])) == 0)
 				if ((ret = cmd_fts[j](env, lines[i])))
+				{
+					parser_error(lines, i);
 					return (ret);
+				}
 		}
 	}
 	return (0);

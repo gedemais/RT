@@ -1,11 +1,29 @@
 #include "main.h"
 
-static int	get_arg_value(t_var var, t_object *obj, char *split)
+unsigned int	find_material(t_dynarray *mtls, t_object *obj, char *name)
+{
+	t_material	*m;
+
+	for (unsigned int i = 0; (int)i < mtls->nb_cells; i++)
+	{
+		m = dyacc(mtls, i);
+		if (ft_strcmp(m->name, &name[9]) == 0)
+		{
+			obj->mtl = i;
+			return (0);
+		}
+	}
+	return (ERROR_MATERIAL_NOT_FOUND);
+}
+
+static int	get_arg_value(t_rt_env *env, t_var var, t_object *obj, char *split)
 {
 	int	ret = 0;
 
 	if (var.type == DT_VECTOR_B)
 		ret = parse_vector(split, "[]", &obj->sphere.origin);
+	else if (var.type == DT_STRING)
+		ret = find_material(&env->scene.mtls, obj, split);
 	else // DT_FLOAT
 	{
 		obj->sphere.radius = ft_atof(&split[ft_strlen(var.name)]);
@@ -27,6 +45,7 @@ int			add_sphere(t_rt_env *env, char **split)
 	int			ret;
 
 	new.type = TYPE_SPHERE;
+	ft_bzero(&new, sizeof(t_object));
 	for (unsigned int i = 0; i < NARG_SPHERE; i++)
 	{
 		found = false;
@@ -35,7 +54,7 @@ int			add_sphere(t_rt_env *env, char **split)
 			if (ft_strncmp(vars[i].name, split[j], ft_strlen(vars[i].name)) == 0)
 			{
 				found = true;
-				if ((ret = get_arg_value(vars[i], &new, split[j])))
+				if ((ret = get_arg_value(env, vars[i], &new, split[j])))
 					return (ret);
 			}
 		}

@@ -36,8 +36,8 @@ void	rt_error(int exit_code)
 		[ERROR_INVALID_OPACITY_VALUE] = "scene_parser : Invalid opacity value (0 - 1.0)",
 		[ERROR_INVALID_CHAR_IN_MTL_NAME] = "scene_parser : Invalid character in material name (must be alphanumeric).",
 		[ERROR_MTL_NAME_NOT_FOUND] = "scene_parser : mtl name value not found",
-		[ERROR_MTL_NAME_TOO_LONG] = "scene_parser : mtl name value is too long"
-		//[] = "",
+		[ERROR_MTL_NAME_TOO_LONG] = "scene_parser : mtl name value is too long",
+		[ERROR_MATERIAL_NOT_FOUND] = "scene_parser : Material not found"
 		//[] = "",
 		//[] = "",
 		//[] = "",

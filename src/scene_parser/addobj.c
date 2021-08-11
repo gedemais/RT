@@ -11,7 +11,7 @@ bool		is_vec_in(cl_float3 v, float min, float max)
 
 bool		is_float_in(float f, float min, float max)
 {
-	return (f > min && f <= max);
+	return (f >= min && f <= max);
 }
 
 

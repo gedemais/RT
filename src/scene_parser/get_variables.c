@@ -48,7 +48,10 @@ int		get_variables(t_rt_env *env, char **lines)
 		if ((ret = find_var_line(var_names[i], &line_index, lines)))
 			return (ret);
 		if ((ret = var_parsing_fts[i](env, lines[line_index])))
+		{
+			parser_error(lines, line_index);
 			return (ret);
+		}
 	}
 	return (0);
 }

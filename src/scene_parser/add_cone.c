@@ -1,18 +1,12 @@
 #include "main.h"
 
-static int	get_arg_value(t_var var, t_object *obj, char *split)
+static int	get_arg_value(t_rt_env *env, t_var var, t_object *obj, char *split)
 {
 	cl_float3	tmp;
 	cl_float	t;
 	int			ret = 0;
 
-	if (var.type == DT_VECTOR_P)
-	{
-		ret = parse_vector(split, "()", &obj->color);
-		if (ret == 0 && !is_vec_in(obj->color, 0.0f, 1.0f))
-			return (ERROR_COLOR_VALUE_OUT_OF_RANGE);
-	}
-	else if (var.type == DT_VECTOR_B)
+	if (var.type == DT_VECTOR_B)
 	{
 		ret = parse_vector(split, "[]", &tmp);
 		if (ft_strcmp(var.name, "tip=") == 0)
@@ -20,6 +14,8 @@ static int	get_arg_value(t_var var, t_object *obj, char *split)
 		else
 			obj->cone.axis = tmp;
 	}
+	else if (var.type == DT_STRING)
+		ret = find_material(&env->scene.mtls, obj, split);
 	else // DT_FLOAT
 	{
 		t = ft_atof(&split[ft_strlen(var.name)]);
@@ -38,7 +34,7 @@ static int	get_arg_value(t_var var, t_object *obj, char *split)
 int			add_cone(t_rt_env *env, char **split)
 {
 	const t_var	vars[NARG_CONE] ={
-									{"color=", DT_VECTOR_P},
+									{"material=", DT_STRING},
 									{"radius=", DT_FLOAT},
 									{"height=", DT_FLOAT},
 									{"tip=", DT_VECTOR_B},
@@ -58,7 +54,7 @@ int			add_cone(t_rt_env *env, char **split)
 			if (ft_strncmp(vars[i].name, split[j], ft_strlen(vars[i].name)) == 0)
 			{
 				found = true;
-				if ((ret = get_arg_value(vars[i], &new, split[j])))
+				if ((ret = get_arg_value(env, vars[i], &new, split[j])))
 					return (ret);
 			}
 		}

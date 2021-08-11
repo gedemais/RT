@@ -7,6 +7,7 @@
 
 # include <OpenCL/cl.h>
 # include <stdbool.h>
+# include "libft.h"
 
 enum	e_data_type
 {
@@ -20,7 +21,7 @@ enum	e_data_type
 
 enum	e_nb_args
 {
-	NARG_SPHERE = 2,
+	NARG_SPHERE = 3,
 	NARG_POLYGON = 4,
 	NARG_CONE = 5,
 	NARG_LIGHT = 3,
@@ -97,7 +98,7 @@ struct	s_object
 		// t_cylinder cylinder;
 		// t_;
 	};
-	t_material	mtl;
+	cl_uint		mtl;
 	cl_int		type;
 };
 
@@ -108,7 +109,9 @@ struct	s_light
 	cl_float	brightness;
 };
 
-bool		is_vec_in(cl_float3 v, float min, float max);
-bool		is_float_in(float f, float min, float max);
+bool			is_vec_in(cl_float3 v, float min, float max);
+bool			is_float_in(float f, float min, float max);
+unsigned int	find_material(t_dynarray *mtls, t_object *obj, char *name);
+void			parser_error(char **lines, unsigned int i);
 
 #endif
