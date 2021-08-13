@@ -15,12 +15,12 @@ set ambiant_color : (1.0, 1.0, 1.0)
 # ns : Specular exponent
 # d  : Opacity
 
-addmtl mtl_0 ka=(0.3, 0.3, 0.3) ks=(0.3, 0.3, 0.3) kd=(0.3, 0.3, 0.3) ns=80.0 d=1.0
+addmtl mtl0 ka=(0.3, 0.3, 0.3) ks=(0.3, 0.3, 0.3) kd=(0.3, 0.3, 0.3) ns=80.0 d=1.0
 
-addobj sphere material=mtl_0 position=[0.0, -0.25, -2.0] radius=0.5
+addobj sphere material=mtl0 position=[0.0, -0.25, -2.0] radius=0.5
 
 # Floor
-addobj sphere material=mtl_0 position=[0.0, -1001.0, 0] radius=1000.0 
+addobj sphere material=mtl0 position=[0.0, -1001.0, 0] radius=1000.0 
 
 addlight position=[-1.2, 1.0, -1.0] color=(1.0, 1.0, 1.0) brightness=0.3
 addlight position=[0, 1.0, -1.0] color=(1.0, 1.0, 1.0) brightness=0.3

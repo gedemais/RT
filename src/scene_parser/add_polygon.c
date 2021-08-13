@@ -33,6 +33,8 @@ int			add_polygon(t_rt_env *env, char **split)
 	bool		found;
 	int			ret;
 
+	ft_putendl(__FUNCTION__);
+	fflush(stdout);
 	new.type = TYPE_POLYGON;
 	ft_bzero(&new, sizeof(t_object));
 	for (unsigned int i = 0; i < NARG_POLYGON; i++)

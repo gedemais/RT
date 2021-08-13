@@ -24,7 +24,7 @@ static int	build_kernel(t_opencl *cl, char *code, unsigned int index)
 	if (errcode != CL_SUCCESS)
 		return (cl_failure(ERROR_PROGRAM_CREATION_FAILED, errcode));
 
-	if (clBuildProgram(cl->programs[index], 0, NULL, NULL, NULL, NULL) != CL_SUCCESS)
+	if (clBuildProgram(cl->programs[index], 0, NULL, "-Werror", NULL, NULL) != CL_SUCCESS)
 	{
 		print_log(cl, index);
 		return (ERROR_KERNEL_BUILD_FAILED);
@@ -60,7 +60,6 @@ static int	map_kernels(t_opencl *cl)
 			munmap(code, info.st_size);
 			return (err_code);
 		}
-
 		munmap(code, info.st_size);
 	}
 	return (0);

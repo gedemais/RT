@@ -19,8 +19,12 @@ int		create_cl_buffers(t_rt_env *env)
 	buffers_sizes[CL_BUFF_OBJECTS] = sizeof(t_object) * MAX_OBJECTS;
 	buffers_flags[CL_BUFF_OBJECTS] = CL_MEM_READ_ONLY;
 
-	// Objects buffer
+	// Lights buffer
 	buffers_sizes[CL_BUFF_LIGHTS] = sizeof(t_light) * MAX_LIGHTS;
+	buffers_flags[CL_BUFF_LIGHTS] = CL_MEM_READ_ONLY;
+
+	// Materials buffer
+	buffers_sizes[CL_BUFF_LIGHTS] = sizeof(t_material) * MAX_MTLS;
 	buffers_flags[CL_BUFF_LIGHTS] = CL_MEM_READ_ONLY;
 
 	// Buffers allocations

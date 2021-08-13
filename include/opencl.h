@@ -13,6 +13,7 @@ enum	e_buffers
 {
 	CL_BUFF_IMAGE,
 	CL_BUFF_OBJECTS,
+	CL_BUFF_MATERIALS,
 	CL_BUFF_LIGHTS,
 	CL_BUFF_MAX
 };
@@ -28,6 +29,7 @@ struct	s_camera
 	cl_float		brightness;
 	cl_uint			nb_objects;
 	cl_uint			nb_lights;
+	cl_uint			nb_materials;
 };
 
 struct	s_opencl

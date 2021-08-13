@@ -44,6 +44,8 @@ int			add_sphere(t_rt_env *env, char **split)
 	bool		found;
 	int			ret;
 
+	ft_putendl(__FUNCTION__);
+	fflush(stdout);
 	new.type = TYPE_SPHERE;
 	ft_bzero(&new, sizeof(t_object));
 	for (unsigned int i = 0; i < NARG_SPHERE; i++)

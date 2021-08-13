@@ -1,78 +1,8 @@
-# define NULL (void*)0
-# define EPSILON 0.0001f
-# define PI 3.141f
+#define NULL (void*)0
+#define EPSILON 0.0001f
+#define PI 3.141f
 
-# define KS 0.5f
-# define KD 0.0f
-# define KA 0.0f
-
-# define ALPHA 10.0f
-
-enum	e_object_type
-{
-	TYPE_POLYGON,
-	TYPE_SPHERE,
-	TYPE_PLANE,
-	TYPE_CYLINDER,
-	TYPE_CONE,
-	TYPE_MAX
-};
-
-typedef struct	s_light
-{
-	float3	origin;
-	float3	color;
-	float	brightness;
-}				t_light;
-
-typedef struct	s_camera
-{
-	float3			o;
-	float3			ambiant_color;
-	short			img_wdt;
-	short			img_hgt;
-	float			aspect_ratio;
-	float			fov;
-	float			brightness;
-	unsigned int	nb_objects;
-	unsigned int	nb_lights;
-}				t_camera;
-
-typedef struct	s_cone
-{
-	float3	color;
-	float3	tip;
-	float3	axis;
-	float	height;
-	float	radius;
-}				t_cone;
-
-typedef struct	s_polygon
-{
-	float3 v0;
-	float3 v1;
-	float3 v2;
-}				t_polygon;
-
-typedef struct	s_sphere
-{
-	float	radius; // Radius of the sphere
-	float3	origin; // Origin point of the object
-}				t_sphere;
-
-typedef struct	s_object
-{
-	union
-	{
-		t_polygon	poly;
-		t_sphere	sphere;
-		t_cone		cone;
-	};
-	float3	color; // Color of the object
-	int		type;
-}				t_object;
-
-//---------------------------------------------------------------------
+#include "src/kernels/types.h"
 
 static float	ray_sphere_intersection(float3 ray_o, float3 ray_dir, t_sphere sphere)
 {
@@ -143,17 +73,7 @@ static float	ray_cone_intersection(float3 ray_o, float3 ray_dir, t_cone cone)
 	return (-1.0f);
 }
 
-//---------------------------------------------------------------------
-
-static float3	phong_pixel_iteration(__global t_light *light, __global t_object* hit_obj, t_camera cam,
-								float3 shadow_ray_dir, float3 color, float3 p, float3 n)
-{
-	float3	reflect_dir;
-
-	reflect_dir = normalize(-shadow_ray_dir - 2.0f * (-shadow_ray_dir, n) * n);
-
-	return (color);
-}
+// -----------------------------
 
 static float3	compute_ray_direction(t_camera cam, const unsigned short x, const unsigned short y)
 {
@@ -188,7 +108,7 @@ static float3	shadow_ray(t_camera cam, __global t_object *objects, __global t_li
 			}
 		}
 		if (!in_shadow)
-			color = color_pixel(&lights[i], hit_obj, cam, shadow_ray_dir, color, p, n);
+			color += hit_obj->color;
 	}
 	color += cam.brightness * cam.ambiant_color;
 	return (color);
@@ -242,7 +162,6 @@ static float3	cast_ray(__global t_object *objects, __global t_light *lights, t_c
 		printf("There\n");
 		return (closest->color);
 	}
-
 	return (shadow_ray(cam, objects, lights, closest, ray_dir, p, n));
 }
 
@@ -266,12 +185,6 @@ __kernel void	ray_caster(__global int *img, __global t_object *objects, __global
 	const unsigned short x = get_global_id(0);
 	const unsigned short y = get_global_id(1);
 
-/*	if (x == 0 && y == 0)
-	{
-		printf("%d objects\n", cam.nb_objects);
-		for (unsigned int i = 0; i < cam.nb_objects; i++)
-			printf("%d\n", objects[i].type);
-	}*/
 	const float3 ray_dir = compute_ray_direction(cam, x, y);
 
 	const float3 color = cast_ray(objects, lights, cam, ray_dir);
